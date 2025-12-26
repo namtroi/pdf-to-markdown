@@ -4,13 +4,22 @@ import { REMOVED_ANNOTATION } from '../../Annotation';
 // @ts-ignore - stringFunctions not typed
 import { isDigit } from '../../../stringFunctions';
 
+const SPACE_CHAR_CODE = 32;
+const NON_BREAKING_SPACE_CHAR_CODE = 160;
+const HASH_SHIFT_BITS = 5;
+const INITIAL_MAX_Y = 0;
+const INITIAL_MIN_Y = 999;
+const MIN_REPETITIONS = 3;
+const REPETITION_THRESHOLD_NUMERATOR = 2;
+const REPETITION_THRESHOLD_DENOMINATOR = 3;
+
 function hashCodeIgnoringSpacesAndNumbers(string: string): number {
   let hash = 0;
   if (string.trim().length === 0) return hash;
   for (let i = 0; i < string.length; i++) {
     const charCode = string.charCodeAt(i);
-    if (!isDigit(charCode) && charCode !== 32 && charCode !== 160) {
-      hash = (hash << 5) - hash + charCode;
+    if (!isDigit(charCode) && charCode !== SPACE_CHAR_CODE && charCode !== NON_BREAKING_SPACE_CHAR_CODE) {
+      hash = (hash << HASH_SHIFT_BITS) - hash + charCode;
       hash |= 0; // Convert to 32bit integer
     }
   }
@@ -50,8 +59,8 @@ export class RemoveRepetitiveElements extends ToLineItemTransformation {
           return itemStore;
         },
         {
-          minY: 999,
-          maxY: 0,
+          minY: INITIAL_MIN_Y,
+          maxY: INITIAL_MAX_Y,
           minElements: [],
           maxElements: [],
         }
@@ -77,13 +86,13 @@ export class RemoveRepetitiveElements extends ToLineItemTransformation {
     let removedHeader = 0;
     let removedFooter = 0;
     parseResult.pages.forEach((_page, i) => {
-      if ((minLineHashRepetitions[pageStore[i]!.minLineHash] || 0) >= Math.max(3, (parseResult.pages.length * 2) / 3)) {
+      if ((minLineHashRepetitions[pageStore[i]!.minLineHash] || 0) >= Math.max(MIN_REPETITIONS, (parseResult.pages.length * REPETITION_THRESHOLD_NUMERATOR) / REPETITION_THRESHOLD_DENOMINATOR)) {
         pageStore[i]!.minElements.forEach((item: any) => {
           item.annotation = REMOVED_ANNOTATION;
         });
         removedFooter++;
       }
-      if ((maxLineHashRepetitions[pageStore[i]!.maxLineHash] || 0) >= Math.max(3, (parseResult.pages.length * 2) / 3)) {
+      if ((maxLineHashRepetitions[pageStore[i]!.maxLineHash] || 0) >= Math.max(MIN_REPETITIONS, (parseResult.pages.length * REPETITION_THRESHOLD_NUMERATOR) / REPETITION_THRESHOLD_DENOMINATOR)) {
         pageStore[i]!.maxElements.forEach((item: any) => {
           item.annotation = REMOVED_ANNOTATION;
         });

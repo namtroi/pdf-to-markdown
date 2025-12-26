@@ -5,6 +5,9 @@ import { LineItem } from '../../LineItem';
 import { DETECTED_ANNOTATION } from '../../Annotation';
 import { minXFromPageItems } from '../../../pageItemFunctions';
 
+const NEGATIVE_DISTANCE_TOLERANCE_DIVISOR = 2;
+const BASE_DISTANCE_TOLERANCE = 1;
+
 // Gathers lines to blocks
 export class GatherBlocks extends ToLineItemBlockTransformation {
   constructor() {
@@ -72,14 +75,14 @@ function shouldFlushBlock(stashedBlock: LineItemBlock, item: any, minX: number, 
 
 function bigDistance(lastItem: any, item: any, minX: number, mostUsedDistance: number): boolean {
   const distance = lastItem.y - item.y;
-  if (distance < 0 - mostUsedDistance / 2) {
+  if (distance < 0 - mostUsedDistance / NEGATIVE_DISTANCE_TOLERANCE_DIVISOR) {
     //distance is negative - and not only a bit
     return true;
   }
-  let allowedDisctance = mostUsedDistance + 1;
+  let allowedDisctance = mostUsedDistance + BASE_DISTANCE_TOLERANCE;
   if (lastItem.x > minX && item.x > minX) {
     //intended elements like lists often have greater spacing
-    allowedDisctance = mostUsedDistance + mostUsedDistance / 2;
+    allowedDisctance = mostUsedDistance + mostUsedDistance / NEGATIVE_DISTANCE_TOLERANCE_DIVISOR;
   }
   if (distance > allowedDisctance) {
     return true;

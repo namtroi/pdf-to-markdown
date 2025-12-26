@@ -4,6 +4,10 @@ import { LineItem } from '../../LineItem';
 import { StashingStream } from '../../StashingStream';
 import { REMOVED_ANNOTATION, ADDED_ANNOTATION } from '../../Annotation';
 
+const MIN_VERTICAL_SPACING = 5;
+const MIN_VERTICAL_CHARACTERS = 5;
+const INITIAL_MIN_X = 999;
+
 // Converts vertical text to horizontal
 export class VerticalToHorizontal extends ToLineItemTransformation {
   constructor() {
@@ -39,14 +43,14 @@ class VerticalsStream extends StashingStream {
   }
 
   override doMatchesStash(lastItem: LineItem, item: LineItem): boolean {
-    return lastItem.y - item.y > 5 && (lastItem.words[0]?.type === item.words[0]?.type);
+    return lastItem.y - item.y > MIN_VERTICAL_SPACING && (lastItem.words[0]?.type === item.words[0]?.type);
   }
 
   override doFlushStash(stash: LineItem[], results: LineItem[]): void {
-    if (stash.length > 5) {
+    if (stash.length > MIN_VERTICAL_CHARACTERS) {
       // unite
       const combinedWords: any[] = [];
-      let minX = 999;
+      let minX = INITIAL_MIN_X;
       let maxY = 0;
       let sumWidth = 0;
       let maxHeight = 0;

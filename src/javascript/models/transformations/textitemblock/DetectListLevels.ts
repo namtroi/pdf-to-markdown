@@ -4,6 +4,8 @@ import { Word } from '../../Word';
 import { MODIFIED_ANNOTATION, UNCHANGED_ANNOTATION } from '../../Annotation';
 import { BlockType } from '../../markdown/BlockType';
 
+const SPACES_PER_INDENT_LEVEL = 3;
+
 // Cares for proper sub-item spacing/leveling
 export class DetectListLevels extends ToLineItemBlockTransformation {
   constructor() {
@@ -33,7 +35,7 @@ export class DetectListLevels extends ToLineItemBlockTransformation {
             xByLevel[item.x] = 0;
           }
           if (currentLevel > 0) {
-            item.words = [new Word({ string: ' '.repeat(currentLevel * 3) })].concat(item.words);
+            item.words = [new Word({ string: ' '.repeat(currentLevel * SPACES_PER_INDENT_LEVEL) })].concat(item.words);
             modifiedBlock = true;
           }
           lastItemX = item.x;

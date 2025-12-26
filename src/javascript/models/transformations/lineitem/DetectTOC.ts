@@ -8,7 +8,7 @@ import { BlockType, headlineByLevel } from '../../markdown/BlockType';
 import type { Page } from '../../Page';
 import type { HeightRange } from '../../../types/globals';
 // @ts-ignore - stringFunctions not typed
-import { isDigit, isNumber, wordMatch, hasOnly } from '../../../stringFunctions';
+import { isDigit, isNumber, calculateWordMatchScore, hasOnlyCharacter } from '../../../stringFunctions';
 
 //Detect table of contents pages plus linked headlines
 export class DetectTOC extends ToLineItemTransformation {
@@ -33,7 +33,7 @@ export class DetectTOC extends ToLineItemTransformation {
       //find lines ending with a number per page
       page.items.forEach((item) => {
         const line = item as LineItem;
-        const words = line.words.filter((word) => !hasOnly(word.string, '.'));
+        const words = line.words.filter((word) => !hasOnlyCharacter(word.string, '.'));
         const digits: string[] = [];
         while (words.length > 0 && isNumber(words[words.length - 1]!.string)) {
           const lastWord = words.pop();
@@ -329,7 +329,7 @@ function findPageAndLineFromHeadline(pages: Page[], tocLink: TocLink, heightRang
     const lineIndex = page.items.findIndex((item) => {
       const line = item as LineItem;
       if (!line.type && !line.annotation && line.height >= heightRange.min && line.height <= heightRange.max) {
-        const match = wordMatch(linkText, line.text());
+        const match = calculateWordMatchScore(linkText, line.text());
         return match >= 0.5;
       }
       return false;

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
     isDigit,
     isNumber,
-    hasOnly,
+    hasOnlyCharacter,
     hasUpperCaseCharacterInMiddleOfWord,
     normalizedCharCodeArray,
     charCodeArray,
@@ -13,7 +13,7 @@ import {
     isListItemCharacter,
     isListItem,
     isNumberedListItem,
-    wordMatch
+    calculateWordMatchScore
 } from '../src/javascript/stringFunctions';
 
 describe('stringFunctions', () => {
@@ -51,23 +51,23 @@ describe('stringFunctions', () => {
         });
     });
 
-    describe('hasOnly', () => {
+    describe('hasOnlyCharacter', () => {
         it('returns true when string contains only specified character', () => {
-            expect(hasOnly('aaa', 'a')).toBe(true);
-            expect(hasOnly('---', '-')).toBe(true);
-            expect(hasOnly('...', '.')).toBe(true);
-            expect(hasOnly('x', 'x')).toBe(true);
+            expect(hasOnlyCharacter('aaa', 'a')).toBe(true);
+            expect(hasOnlyCharacter('---', '-')).toBe(true);
+            expect(hasOnlyCharacter('...', '.')).toBe(true);
+            expect(hasOnlyCharacter('x', 'x')).toBe(true);
         });
 
         it('returns false when string contains other characters', () => {
-            expect(hasOnly('aab', 'a')).toBe(false);
-            expect(hasOnly('baa', 'a')).toBe(false);
-            expect(hasOnly('aba', 'a')).toBe(false);
-            expect(hasOnly('abc', 'a')).toBe(false);
+            expect(hasOnlyCharacter('aab', 'a')).toBe(false);
+            expect(hasOnlyCharacter('baa', 'a')).toBe(false);
+            expect(hasOnlyCharacter('aba', 'a')).toBe(false);
+            expect(hasOnlyCharacter('abc', 'a')).toBe(false);
         });
 
         it('returns true for empty string', () => {
-            expect(hasOnly('', 'a')).toBe(true);
+            expect(hasOnlyCharacter('', 'a')).toBe(true);
         });
     });
 
@@ -304,48 +304,48 @@ describe('stringFunctions', () => {
         });
     });
 
-    describe('wordMatch', () => {
+    describe('calculateWordMatchScore', () => {
         it('returns 1 for identical strings', () => {
-            expect(wordMatch('hello world', 'hello world')).toBe(1);
-            expect(wordMatch('test', 'test')).toBe(1);
+            expect(calculateWordMatchScore('hello world', 'hello world')).toBe(1);
+            expect(calculateWordMatchScore('test', 'test')).toBe(1);
         });
 
         it('returns 1 for identical strings with different case', () => {
-            expect(wordMatch('Hello World', 'hello world')).toBe(1);
-            expect(wordMatch('TEST', 'test')).toBe(1);
+            expect(calculateWordMatchScore('Hello World', 'hello world')).toBe(1);
+            expect(calculateWordMatchScore('TEST', 'test')).toBe(1);
         });
 
         it('returns 0 for completely different strings', () => {
-            expect(wordMatch('hello', 'world')).toBe(0);
-            expect(wordMatch('abc', 'def')).toBe(0);
+            expect(calculateWordMatchScore('hello', 'world')).toBe(0);
+            expect(calculateWordMatchScore('abc', 'def')).toBe(0);
         });
 
         it('returns partial match for overlapping words', () => {
-            expect(wordMatch('hello world', 'hello universe')).toBe(0.5); // 1 match out of 2 words
-            expect(wordMatch('one two three', 'one two four')).toBe(2/3); // 2 matches out of 3 words
+            expect(calculateWordMatchScore('hello world', 'hello universe')).toBe(0.5); // 1 match out of 2 words
+            expect(calculateWordMatchScore('one two three', 'one two four')).toBe(2/3); // 2 matches out of 3 words
         });
 
         it('handles single word strings', () => {
-            expect(wordMatch('hello', 'hello')).toBe(1);
-            expect(wordMatch('hello', 'goodbye')).toBe(0);
+            expect(calculateWordMatchScore('hello', 'hello')).toBe(1);
+            expect(calculateWordMatchScore('hello', 'goodbye')).toBe(0);
         });
 
         it('handles empty strings', () => {
             // Empty string splits to Set with one empty element: [''] -> Set([''])
-            // So wordMatch('', '') = 1/max(1, 1) = 1
-            expect(wordMatch('', '')).toBe(1);
-            expect(wordMatch('hello', '')).toBe(0);
-            expect(wordMatch('', 'hello')).toBe(0);
+            // So calculateWordMatchScore('', '') = 1/max(1, 1) = 1
+            expect(calculateWordMatchScore('', '')).toBe(1);
+            expect(calculateWordMatchScore('hello', '')).toBe(0);
+            expect(calculateWordMatchScore('', 'hello')).toBe(0);
         });
 
         it('normalizes to uppercase for comparison', () => {
-            expect(wordMatch('Hello', 'HELLO')).toBe(1);
-            expect(wordMatch('Test Word', 'test word')).toBe(1);
+            expect(calculateWordMatchScore('Hello', 'HELLO')).toBe(1);
+            expect(calculateWordMatchScore('Test Word', 'test word')).toBe(1);
         });
 
         it('uses maximum word count as denominator', () => {
-            expect(wordMatch('one', 'one two three')).toBe(1/3);
-            expect(wordMatch('one two three', 'one')).toBe(1/3);
+            expect(calculateWordMatchScore('one', 'one two three')).toBe(1/3);
+            expect(calculateWordMatchScore('one two three', 'one')).toBe(1/3);
         });
     });
 });

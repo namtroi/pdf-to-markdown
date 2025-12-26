@@ -6,6 +6,11 @@ import { BlockType, headlineByLevel } from '../../markdown/BlockType';
 import { isListItem } from '../../../stringFunctions';
 import { Page } from '../../Page';
 
+const TITLE_PAGE_HEADER_DIVISOR = 4;
+const TITLE_PAGE_SECOND_LEVEL_OFFSET = 2;
+const MAX_HEADLINE_LEVEL = 6;
+const SPACING_MULTIPLIER_FOR_UPPERCASE_HEADERS = 2;
+
 //Detect headlines based on heights
 export class DetectHeaders extends ToLineItemTransformation {
   constructor() {
@@ -21,7 +26,7 @@ export class DetectHeaders extends ToLineItemTransformation {
 
     // Handle title pages
     const pagesWithMaxHeight = findPagesWithMaxHeight(parseResult.pages, maxHeight);
-    const min2ndLevelHeaderHeigthOnMaxPage = mostUsedHeight + (maxHeight - mostUsedHeight) / 4;
+    const min2ndLevelHeaderHeigthOnMaxPage = mostUsedHeight + (maxHeight - mostUsedHeight) / TITLE_PAGE_HEADER_DIVISOR;
     pagesWithMaxHeight.forEach((titlePage) => {
       titlePage.items.forEach((item: any) => {
         const height = item.height;
@@ -72,9 +77,9 @@ export class DetectHeaders extends ToLineItemTransformation {
       heights.sort((a, b) => b - a);
 
       heights.forEach((height, i) => {
-        const headlineLevel = i + 2;
-        if (headlineLevel <= 6) {
-          const headlineType = headlineByLevel(2 + i);
+        const headlineLevel = i + TITLE_PAGE_SECOND_LEVEL_OFFSET;
+        if (headlineLevel <= MAX_HEADLINE_LEVEL) {
+          const headlineType = headlineByLevel(TITLE_PAGE_SECOND_LEVEL_OFFSET + i);
           parseResult.pages.forEach((page) => {
             page.items.forEach((item: any) => {
               if (!item.type && item.height === height && !isListItem(item.text())) {
@@ -97,7 +102,7 @@ export class DetectHeaders extends ToLineItemTransformation {
         }
       });
     });
-    if (smallesHeadlineLevel < 6) {
+    if (smallesHeadlineLevel < MAX_HEADLINE_LEVEL) {
       const nextHeadlineType = headlineByLevel(smallesHeadlineLevel + 1);
       parseResult.pages.forEach((page) => {
         let lastItem: any;
@@ -106,7 +111,7 @@ export class DetectHeaders extends ToLineItemTransformation {
             !item.type &&
             item.height === mostUsedHeight &&
             item.font !== mostUsedFont &&
-            (!lastItem || lastItem.y < item.y || (lastItem.type && (lastItem.type as any).headline) || lastItem.y - item.y > mostUsedDistance * 2) &&
+            (!lastItem || lastItem.y < item.y || (lastItem.type && (lastItem.type as any).headline) || lastItem.y - item.y > mostUsedDistance * SPACING_MULTIPLIER_FOR_UPPERCASE_HEADERS) &&
             item.text() === item.text().toUpperCase()
           ) {
             detectedHeaders++;

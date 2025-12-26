@@ -18,7 +18,7 @@ export function isNumber(string: string): boolean {
     return true;
 }
 
-export function hasOnly(string: string, char: string): boolean {
+export function hasOnlyCharacter(string: string, char: string): boolean {
     const charCode = char.charCodeAt(0);
     for (let i = 0; i < string.length; i++) {
         const aCharCode = string.charCodeAt(i);
@@ -29,6 +29,12 @@ export function hasOnly(string: string, char: string): boolean {
     return true;
 }
 
+function isUpperCaseLetter(character: string): boolean {
+    return isNaN(character as any) &&
+           character === character.toUpperCase() &&
+           character.toUpperCase() !== character.toLowerCase();
+}
+
 export function hasUpperCaseCharacterInMiddleOfWord(text: string): boolean {
     let beginningOfWord = true;
     for (let i = 0; i < text.length; i++) {
@@ -36,7 +42,7 @@ export function hasUpperCaseCharacterInMiddleOfWord(text: string): boolean {
         if (character === ' ') {
             beginningOfWord = true;
         } else {
-            if (!beginningOfWord && isNaN(character as any) && character === character.toUpperCase() && character.toUpperCase() !== character.toLowerCase()) {
+            if (!beginningOfWord && isUpperCaseLetter(character)) {
                 return true;
             }
             beginningOfWord = false;
@@ -109,7 +115,7 @@ export function isNumberedListItem(string: string): boolean {
     return /^[\s]*[\d]*[.][\s].*$/g.test(string);
 }
 
-export function wordMatch(string1: string, string2: string): number {
+export function calculateWordMatchScore(string1: string, string2: string): number {
     const words1 = new Set(string1.toUpperCase().split(' '));
     const words2 = new Set(string2.toUpperCase().split(' '));
     const intersection = new Set(
