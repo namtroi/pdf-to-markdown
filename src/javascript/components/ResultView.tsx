@@ -64,23 +64,6 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
     };
 
     const remarkable = new Remarkable({ breaks: true, html: true });
-    const adjustTextareaHeight = (element: HTMLTextAreaElement) => {
-        element.style.height = 'auto';
-        element.style.height = element.scrollHeight + 'px';
-    };
-
-    const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        adjustTextareaHeight(event.target);
-        handleChange(event);
-    };
-
-    // Auto-adjust height on first render when switching to edit mode
-    const textareaRef = (element: HTMLTextAreaElement | null) => {
-        if (element) {
-            adjustTextareaHeight(element);
-        }
-    };
-
     const { preview, text } = state;
 
     return (
@@ -127,18 +110,17 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
             </div>
 
             {/* Editor Surface */}
-            <div className="bg-white rounded-xl min-h-[80vh] flex flex-col">
+            <div className="bg-white rounded-xl min-h-[80vh] flex flex-col overflow-y-auto">
                 {preview ? (
-                    <div 
+                    <div
                         className="prose prose-slate max-w-none p-8 font-serif"
-                        dangerouslySetInnerHTML={{ __html: remarkable.render(text) }} 
+                        dangerouslySetInnerHTML={{ __html: remarkable.render(text) }}
                     />
                 ) : (
                     <textarea
-                        ref={textareaRef}
-                        className="flex-1 w-full p-8 resize-none focus:outline-none font-mono text-sm leading-relaxed text-slate-800 bg-transparent overflow-hidden"
+                        className="flex-1 w-full p-8 resize-none focus:outline-none font-mono text-sm leading-relaxed text-slate-800 bg-transparent"
                         value={text}
-                        onChange={handleInput}
+                        onChange={handleChange}
                         spellCheck={false}
                         placeholder="Markdown content..."
                         style={{ minHeight: '80vh' }}
