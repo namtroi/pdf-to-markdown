@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   root: '.',
   publicDir: 'public',
+  define: {
+    '__APP_VERSION__': JSON.stringify(process.env.npm_package_version || '0.1.3')
+  },
   build: {
     outDir: 'build',
     sourcemap: true,

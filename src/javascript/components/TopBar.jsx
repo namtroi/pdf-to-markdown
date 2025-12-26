@@ -16,7 +16,7 @@ export default class TopBar extends React.Component {
     render() {
         const {mainView, switchMainViewFunction, title} = this.props;
         const aboutPopover = (
-        <Popover id="popover-trigger-click-root-close" title={ `About PDF to Markdown Converter - ${ process.env.version }` }>
+        <Popover id="popover-trigger-click-root-close" title={ `About PDF to Markdown Converter - ${ __APP_VERSION__ }` }>
           <p>
             <i>PDF to Markdown Converter</i> will convert your uploaded PDF to Markdown format.
           </p>

@@ -32,8 +32,8 @@ describe('Transformation Pipeline - Integration', () => {
 
         expect(parseResult).toBeDefined();
         expect(parseResult.pages).toHaveLength(1);
-        expect(parseResult.pages[0].items).toHaveLength(1);
-        expect(parseResult.pages[0].items[0].text).toBe('Test Text');
+        expect(parseResult.pages[0]?.items).toHaveLength(1);
+        expect(parseResult.pages[0]?.items?.[0]?.text).toBe('Test Text');
     });
 
     it('Transformation output preserves ParseResult structure', () => {
@@ -78,7 +78,7 @@ describe('Transformation Pipeline - Integration', () => {
         };
 
         expect(parseResult.pages).toHaveLength(3);
-        expect(parseResult.pages.map(p => p.items[0].text)).toEqual(['Page 1', 'Page 2', 'Page 3']);
+        expect(parseResult.pages.map(p => p?.items?.[0]?.text)).toEqual(['Page 1', 'Page 2', 'Page 3']);
     });
 
     it('Globals accumulate during pipeline execution', () => {
@@ -101,7 +101,7 @@ describe('Transformation Pipeline - Integration', () => {
 
     it('Transformation messages accumulate', () => {
         // Test message collection during pipeline
-        const parseResult = {
+        const parseResult: { pages: any[]; globals: any; messages: string[] } = {
             pages: [],
             globals: {},
             messages: []

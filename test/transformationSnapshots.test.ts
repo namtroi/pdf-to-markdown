@@ -4,19 +4,7 @@ describe('Transformation Snapshots - Stage Outputs', () => {
 
     describe('Stage 1: Calculate Global Stats', () => {
         it('extracts statistics from items correctly', () => {
-            // Simulate CalculateGlobalStats transformation
-            const pages = [
-                {
-                    items: [
-                        { text: 'Title', height: 24, font: 'Arial-Bold', x: 0, y: 0, width: 200 },
-                        { text: 'Subtitle', height: 18, font: 'Arial', x: 0, y: 30, width: 150 },
-                        { text: 'Body text', height: 12, font: 'Arial', x: 0, y: 60, width: 100 },
-                        { text: 'More body', height: 12, font: 'Arial', x: 0, y: 75, width: 100 }
-                    ]
-                }
-            ];
-
-            // Expected stats
+            // Simulate CalculateGlobalStats transformation with expected stats
             const stats = {
                 heightOccurrence: { 24: 1, 18: 1, 12: 2 },
                 fontOccurrence: { 'Arial-Bold': 1, 'Arial': 3 },
@@ -43,8 +31,8 @@ describe('Transformation Snapshots - Stage Outputs', () => {
 
             const headers = lineItems.filter(item => item.type === 'HEADER');
             expect(headers).toHaveLength(3);
-            expect(headers[0].level).toBe(1);
-            expect(headers[1].level).toBe(2);
+            expect(headers[0]?.level).toBe(1);
+            expect(headers[1]?.level).toBe(2);
         });
 
         it('detects list items correctly', () => {
@@ -58,7 +46,7 @@ describe('Transformation Snapshots - Stage Outputs', () => {
 
             const listItems = lineItems.filter(item => item.type === 'LIST_ITEM');
             expect(listItems).toHaveLength(3);
-            expect(listItems[0].text).toBe('- Item 1');
+            expect(listItems[0]?.text).toBe('- Item 1');
         });
 
         it('detects table of contents', () => {
@@ -73,7 +61,7 @@ describe('Transformation Snapshots - Stage Outputs', () => {
 
             const tocEntries = lineItems.filter(item => item.type === 'TOC_ENTRY');
             expect(tocEntries).toHaveLength(3);
-            expect(tocEntries[0].text).toBe('1. Introduction');
+            expect(tocEntries[0]?.text).toBe('1. Introduction');
         });
     });
 
@@ -96,8 +84,8 @@ describe('Transformation Snapshots - Stage Outputs', () => {
             ];
 
             expect(textItemBlocks).toHaveLength(2);
-            expect(textItemBlocks[0].type).toBe('PARAGRAPH');
-            expect(textItemBlocks[0].items).toHaveLength(3);
+            expect(textItemBlocks[0]?.type).toBe('PARAGRAPH');
+            expect(textItemBlocks[0]?.items).toHaveLength(3);
         });
 
         it('detects code and quote blocks', () => {
@@ -125,9 +113,9 @@ describe('Transformation Snapshots - Stage Outputs', () => {
                 { type: 'LIST_ITEM', level: 0, text: 'Item 2' }
             ];
 
-            expect(blocks[1].level).toBe(1);
-            expect(blocks[0].level).toBe(0);
-            expect(blocks[3].level).toBe(0);
+            expect(blocks[1]?.level).toBe(1);
+            expect(blocks[0]?.level).toBe(0);
+            expect(blocks[3]?.level).toBe(0);
         });
     });
 
@@ -142,8 +130,8 @@ describe('Transformation Snapshots - Stage Outputs', () => {
             ];
 
             expect(textBlocks).toHaveLength(4);
-            expect(textBlocks[0].type).toBe('HEADER');
-            expect(textBlocks[2].items).toHaveLength(3);
+            expect(textBlocks[0]?.type).toBe('HEADER');
+            expect(textBlocks[2]?.items).toHaveLength(3);
         });
 
         it('generates markdown output with correct formatting', () => {
