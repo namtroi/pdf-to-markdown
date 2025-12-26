@@ -19,7 +19,7 @@ export class DetectTOC extends ToLineItemTransformation {
     const maxPagesToEvaluate = Math.min(20, parseResult.pages.length);
     const linkLeveler = new LinkLeveler();
 
-    let tocLinks: TocLink[] = [];
+    const tocLinks: TocLink[] = [];
     let lastTocPage: any;
     let headlineItem: any;
     parseResult.pages.slice(0, maxPagesToEvaluate).forEach((page) => {
@@ -30,7 +30,7 @@ export class DetectTOC extends ToLineItemTransformation {
       let lastLine: any;
       //find lines ending with a number per page
       page.items.forEach((line: any) => {
-        let words = line.words.filter((word: any) => !hasOnly(word.string, '.'));
+        const words = line.words.filter((word: any) => !hasOnly(word.string, '.'));
         const digits: string[] = [];
         while (words.length > 0 && isNumber(words[words.length - 1].string)) {
           const lastWord = words.pop();

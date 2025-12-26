@@ -10,32 +10,44 @@ Javascript tool to parse PDF files and convert them into Markdown format. Online
   - [Help me](https://github.com/jzillmann/pdf-to-markdown/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+milestone%3Av2) 
 - **Apr 2017** - 0.1: Initial Release
 
+## Development
+
+### Setup
+
+```bash
+npm install
+```
+
+### Development Commands
+
+- `npm run dev` - Start Vite dev server (http://localhost:5173)
+- `npm run build` - Type-check and build for production
+- `npm run preview` - Preview production build locally
+- `npm run type-check` - Run TypeScript type checking
+- `npm run lint` - Lint code with ESLint
+- `npm test` - Run tests with Vitest
+- `npm run test:ui` - Open Vitest UI dashboard
+- `npm run check` - Run type-check + lint + test
+
+### Tech Stack
+
+- **React 19** with TypeScript
+- **Vite** for build tooling
+- **Tailwind CSS v4** for styling
+- **Headless UI** for accessible components
+- **Vitest** for testing
+- **pdfjs-dist 5.4** for PDF parsing
+
 ## Contribute
 
 Use the [issue tracker](https://github.com/jzillmann/pdf-to-markdown/issues) and/or open [pull requests](https://github.com/jzillmann/pdf-to-markdown/pulls)!
 
-#### Useful Build Commands
-
-- ```npm install``` Download all necessary npm packages
-- ```npm run lint``` Lint the javascript files
-- ```npm run test``` Run tests
-- ```npm run check``` Lint & Test
-- ```npm run build``` Build the dev version
-- ```npm run start``` Run the app on an server (useful for loading of worker.js and cmaps)
-- ```npm run watch``` Continuously build the project
-- ```open build/index.html``` Open the build project in your default browser
-- ```npm run release``` Build production version
-- ```npm run deploy``` Build production version & move it to the github pages fodler
-
-#### Release
-- Increase version in package.json
-- ```npm run deploy```
-- commit & push
-- tag with
-  - _git tag -a $releaseVersion -m "$releaseVersion release"_
-  - _git push --tags_
-
 
 ## Credits
 
-[pdf.js](https://mozilla.github.io/pdf.js/) - Mozilla's PDF parsing & rendering platform which is used as a raw parser
+- [pdf.js](https://mozilla.github.io/pdf.js/) - Mozilla's PDF parsing & rendering platform (pdfjs-dist 5.4)
+- [React](https://react.dev/) - UI framework
+- [Vite](https://vitejs.dev/) - Frontend build tool
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Headless UI](https://headlessui.com/) - Accessible component library
+- [TypeScript](https://www.typescriptlang.org/) - Language and type safety

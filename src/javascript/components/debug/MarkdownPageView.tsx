@@ -1,4 +1,3 @@
-// @ts-ignore - Remarkable types not available
 import Remarkable from 'remarkable';
 import PageView from './PageView';
 import type { Page } from '../../models/Page';

@@ -1,7 +1,5 @@
 // Spinner like loading indicator
-interface SpinnerProps {}
-
-export default function Spinner(_props: SpinnerProps) {
+export default function Spinner() {
     return (
         <svg
             width="120px"
