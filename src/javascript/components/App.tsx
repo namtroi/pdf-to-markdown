@@ -4,9 +4,9 @@ import TopBar from './TopBar';
 import FooterBar from './FooterBar';
 import { View } from '../models/AppState';
 import UploadView from './UploadView';
-import LoadingView from './LoadingView.jsx';
-import ResultView from './ResultView.jsx';
-import DebugView from './DebugView.jsx';
+import LoadingView from './LoadingView';
+import ResultView from './ResultView';
+import DebugView from './DebugView';
 import AppState from '../models/AppState';
 
 interface AppProps {
@@ -22,7 +22,7 @@ export default function App({ appState }: AppProps) {
         case View.LOADING:
             mainView = (
                 <LoadingView
-                    fileBuffer={appState.fileBuffer}
+                    fileBuffer={appState.fileBuffer!}
                     storePdfPagesFunction={appState.storePdfPages}
                 />
             );

@@ -19,7 +19,7 @@ export default function MarkdownPageView({
         const remarkable = new Remarkable({
             breaks: true,
         });
-        const html = remarkable.render(items[0]);
+        const html = remarkable.render(items[0] || '');
         return (
             <div>
                 <div dangerouslySetInnerHTML={{ __html: html }} />
