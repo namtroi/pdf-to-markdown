@@ -11,7 +11,7 @@ const TextItem: any = require('../models/TextItem.jsx').default;
 import { Progress, ProgressStage } from '../models/Progress';
 import type { PDFDocumentProxy, PDFPageProxy } from '../types/pdfjs';
 
-pdfjs.GlobalWorkerOptions.workerSrc = 'bundle.worker.js';
+pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.mjs';
 
 interface LoadingViewProps {
     fileBuffer: ArrayBuffer;
