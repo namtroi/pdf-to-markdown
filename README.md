@@ -1,16 +1,31 @@
-# PDF-To-Markdown Converter
 # PDF to Markdown Converter
 
-Convert PDF to Markdown (including images).
+Convert PDF to Markdown with intelligent layout detection, header/list extraction, and formatting preservation.
 
 [Live Demo](https://namtroi.github.io/pdf-to-markdown/)
 
+## Features
+
+- **Smart Layout Detection** - Headers, paragraphs, lists, code blocks, TOC
+- **Format Preservation** - Bold, italic, links, footnotes
+- **Debug View** - Visualize transformation pipeline stages
+- **Client-Side** - All processing in browser, no server needed
+- **Modern Stack** - React 19, TypeScript, Vite, Tailwind v4
+
+## How It Works
+
+PDF → TextItems → LineItems → Blocks → Markdown
+
+1. **Extract** - PDF.js pulls raw text with positions
+2. **Transform** - 12-stage pipeline detects structure
+3. **Convert** - Block types render to markdown
+
+See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for details.
+
 ## Major Changes
 
-- **2020/2021** Currently separating the parsing logic from the frontent in order to make it separately available. 
-  - [Branch modularize](https://github.com/jzillmann/pdf-to-markdown/tree/modularize) 
-  - Find the current version at https://namtroi.github.io/pdf-to-markdown-staging/
-  - [Help me](https://github.com/jzillmann/pdf-to-markdown/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+milestone%3Av2) 
+- **Dec 2025** - Modernized: JS→TS, Webpack→Vite, Mocha→Vitest, React 19, Tailwind v4
+- **2020/2021** - [Modularization branch](https://github.com/jzillmann/pdf-to-markdown/tree/modularize)
 - **Apr 2017** - 0.1: Initial Release
 
 ## Development

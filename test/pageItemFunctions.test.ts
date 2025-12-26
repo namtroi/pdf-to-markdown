@@ -4,9 +4,9 @@ import {
     minXFromPageItems,
     sortByX,
     sortCopyByX
-} from '../src/javascript/pageItemFunctions';
-import { LineItem } from '../src/javascript/models/LineItem';
-import type { Block } from '../src/javascript/types/globals';
+} from '../src/utils/pageItemFunctions';
+import { LineItem } from '../src/models/LineItem';
+import type { Block } from '../src/types/globals';
 
 // Helper function to create minimal LineItem for testing
 function createMockLineItem(x: number): LineItem {

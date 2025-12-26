@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { TextItem } from '../src/javascript/models/TextItem';
-import { Word } from '../src/javascript/models/Word';
-import { ParseResult } from '../src/javascript/models/ParseResult';
-import { WordFormat } from '../src/javascript/models/markdown/WordFormat';
-import { WordType } from '../src/javascript/models/markdown/WordType';
+import { TextItem } from '../src/models/TextItem';
+import { Word } from '../src/models/Word';
+import { ParseResult } from '../src/models/ParseResult';
+import { WordFormat } from '../src/models/markdown/WordFormat';
+import { WordType } from '../src/models/markdown/WordType';
 
 describe('Models', () => {
     describe('TextItem', () => {

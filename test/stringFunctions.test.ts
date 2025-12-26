@@ -14,7 +14,7 @@ import {
     isListItem,
     isNumberedListItem,
     calculateWordMatchScore
-} from '../src/javascript/stringFunctions';
+} from '../src/utils/stringFunctions';
 
 describe('stringFunctions', () => {
     describe('isDigit', () => {
