@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Container } from 'react-bootstrap'
 
-import TopBar from './TopBar.jsx';
+import TopBar from './TopBar';
 import FooterBar from './FooterBar'
 import { View } from '../models/AppState';
-import UploadView from './UploadView.jsx';
+import UploadView from './UploadView';
 import LoadingView from './LoadingView.jsx';
 import ResultView from './ResultView.jsx';
 import DebugView from './DebugView.jsx';
