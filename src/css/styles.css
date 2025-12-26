@@ -1,17 +1,27 @@
+@import "tailwindcss";
+
+/* Custom link styles */
 a {
     cursor: pointer;
 }
 
+/* Custom disabled state */
 .disabled {
     pointer-events: none;
     cursor: default;
     opacity: 0.6;
 }
 
+/* Custom rounded button */
 .btn-round {
     border-radius: 24px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
+/* Base body styles */
 body {
     color: #212121;
     font-family: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;

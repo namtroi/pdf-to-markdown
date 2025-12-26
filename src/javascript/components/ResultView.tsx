@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import Remarkable from 'remarkable';
-import { Button } from 'react-bootstrap';
 
 declare const require: any;
 
@@ -84,19 +83,19 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
 
     return (
         <div>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                <Button
+            <div className="flex gap-2 mb-4">
+                <button
                     onClick={switchToEdit}
-                    variant={!preview ? 'primary' : 'outline-primary'}
+                    className={!preview ? 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded' : 'border border-blue-500 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded'}
                 >
                     Edit
-                </Button>
-                <Button
+                </button>
+                <button
                     onClick={switchToPreview}
-                    variant={preview ? 'primary' : 'outline-primary'}
+                    className={preview ? 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded' : 'border border-blue-500 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded'}
                 >
                     Preview
-                </Button>
+                </button>
             </div>
             <hr />
             {textComponent}

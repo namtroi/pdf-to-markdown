@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Alert } from 'react-bootstrap';
 import { FaCloud } from 'react-icons/fa';
 
 interface UploadViewProps {
@@ -53,14 +52,14 @@ export default function UploadView({ uploadPdfFunction }: UploadViewProps) {
         <div>
             <div {...getRootProps({ style: dropzoneStyle })}>
                 <input {...getInputProps()} />
-                <div className="container">
+                <div className="container mx-auto px-4">
                     <h2>Drop your PDF file here!</h2>
                 </div>
                 <h1>
                     <FaCloud width={100} height={100} />
                 </h1>
                 <br />
-                <Alert variant="warning">
+                <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
                     <i>
                         This tool converts a PDF file into a Markdown text format! Simply drag &
                         drop your PDF file on the upload area and go from there. Don't expect
@@ -70,7 +69,7 @@ export default function UploadView({ uploadPdfFunction }: UploadViewProps) {
                         Though this tool aims to be general purpose, it has been tested on a
                         certain set of PDF's only.
                     </i>
-                </Alert>
+                </div>
             </div>
             <br />
             <br />

@@ -1,5 +1,3 @@
-import { Container } from 'react-bootstrap';
-
 import TopBar from './TopBar';
 import FooterBar from './FooterBar';
 import { View } from '../models/AppState';
@@ -46,9 +44,9 @@ export default function App({ appState }: AppProps) {
                 switchMainViewFunction={appState.switchMainView}
                 title={title}
             />
-            <Container>
+            <div className="container mx-auto px-4">
                 <div>{mainView}</div>
-            </Container>
+            </div>
             <FooterBar />
         </div>
     );

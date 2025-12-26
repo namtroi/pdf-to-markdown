@@ -1,4 +1,3 @@
-import { Table } from 'react-bootstrap';
 
 interface TextItem {
     text: string;
@@ -110,9 +109,11 @@ export default function TextItemTable({ textItems, showWhitespaces }: TextItemTa
     ));
 
     return (
-        <Table responsive size="sm" bordered>
-            {tableHeader}
-            <tbody>{textItemRows}</tbody>
-        </Table>
+        <div className="overflow-x-auto">
+            <table className="min-w-full text-sm border border-gray-300">
+                {tableHeader}
+                <tbody>{textItemRows}</tbody>
+            </table>
+        </div>
     );
 }

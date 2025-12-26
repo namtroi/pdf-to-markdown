@@ -1,4 +1,3 @@
-import { Table } from 'react-bootstrap';
 
 interface LineItem {
     text: () => string;
@@ -107,9 +106,11 @@ export default function LineItemTable({ items, showWhitespaces }: LineItemTableP
     ));
 
     return (
-        <Table responsive size="sm" bordered>
-            {tableHeader}
-            <tbody>{itemRows}</tbody>
-        </Table>
+        <div className="overflow-x-auto">
+            <table className="min-w-full text-sm border border-gray-300">
+                {tableHeader}
+                <tbody>{itemRows}</tbody>
+            </table>
+        </div>
     );
 }

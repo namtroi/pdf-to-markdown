@@ -1,4 +1,3 @@
-import { Table } from 'react-bootstrap';
 import PageView from './PageView';
 import type { Page } from '../../models/Page';
 
@@ -20,27 +19,27 @@ export default function TextPageView({
     showWhitespaces,
 }: TextPageViewProps) {
     const createItemViews = (items: TextBlock[]) => (
-        <div>
-            <Table responsive>
+        <div className="overflow-x-auto">
+            <table className="min-w-full text-sm border border-gray-300">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Category</th>
-                        <th>Text</th>
+                        <th className="border border-gray-300 px-3 py-2">#</th>
+                        <th className="border border-gray-300 px-3 py-2">Category</th>
+                        <th className="border border-gray-300 px-3 py-2">Text</th>
                     </tr>
                 </thead>
                 <tbody>
                     {items.map((block, i) => (
                         <tr key={i}>
-                            <td>{i}</td>
-                            <td>{block.category}</td>
-                            <td>
+                            <td className="border border-gray-300 px-3 py-2">{i}</td>
+                            <td className="border border-gray-300 px-3 py-2">{block.category}</td>
+                            <td className="border border-gray-300 px-3 py-2">
                                 <pre style={{ display: 'inline-block' }}>{block.text}</pre>
                             </td>
                         </tr>
                     ))}
                 </tbody>
-            </Table>
+            </table>
         </div>
     );
 
