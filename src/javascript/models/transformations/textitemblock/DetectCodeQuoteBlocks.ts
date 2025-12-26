@@ -18,6 +18,7 @@ export class DetectCodeQuoteBlocks extends ToLineItemBlockTransformation {
     parseResult.pages.forEach((page) => {
       const minX = minXFromBlocks(page.items);
       page.items.forEach((block: any) => {
+        // @ts-ignore
         if (!block.type && looksLikeCodeBlock(minX, block.items, mostUsedHeight)) {
           block.annotation = DETECTED_ANNOTATION;
           block.type = BlockType.CODE;

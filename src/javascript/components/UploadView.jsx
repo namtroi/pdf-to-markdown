@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Alert } from 'react-bootstrap'
 import Dropzone from 'react-dropzone'
-import { FaCloudUpload } from 'react-icons/fa'
+import { FaCloud } from 'react-icons/fa'
 
 export default class UploadView extends React.Component {
 
@@ -38,7 +38,7 @@ export default class UploadView extends React.Component {
                 <div className="container">
                   <h2>Drop your PDF file here!</h2>
                 </div>
-                <h1><FaCloudUpload width={ 100 } height={ 100 } /></h1>
+                <h1><FaCloud width={ 100 } height={ 100 } /></h1>
                 <br/>
                 <Alert variant="warning">
                   <i>This tool converts a PDF file into a Markdown text format! Simply drag & drop your PDF file on the upload area and go from there. Don't expect wonders, there are a lot of variances in generated PDF's from different tools and different ages. No matter how good the parser works for your PDF, you will have to invest a good amount of manuell work to complete it. Though this tool aims to be general purpose, it has been tested on a certain set of PDF's only.</i>

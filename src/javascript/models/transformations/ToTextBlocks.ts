@@ -12,6 +12,7 @@ export class ToTextBlocks extends Transformation {
   }
 
   override createPageView(page: Page, _modificationsOnly?: boolean): any {
+    // @ts-ignore
     return TextPageView({
       key: page.index,
       page: page,

@@ -11,6 +11,7 @@ export class ToMarkdown extends Transformation {
   }
 
   override createPageView(page: Page, _modificationsOnly?: boolean): any {
+    // @ts-ignore
     return MarkdownPageView({
       key: page.index,
       page: page,

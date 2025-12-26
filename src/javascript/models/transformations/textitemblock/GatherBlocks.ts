@@ -32,6 +32,7 @@ export class GatherBlocks extends ToLineItemBlockTransformation {
 
       const minX = minXFromPageItems(page.items);
       page.items.forEach((item: any) => {
+        // @ts-ignore
         if (stashedBlock.items.length > 0 && shouldFlushBlock(stashedBlock, item, minX, mostUsedDistance)) {
           flushStashedItems();
         }

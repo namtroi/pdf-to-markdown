@@ -23,6 +23,7 @@ export abstract class ToLineItemTransformation extends Transformation {
   }
 
   override createPageView(page: Page, modificationsOnly?: boolean): any {
+    // @ts-ignore
     return LineItemPageView({
       key: page.index,
       page: page,

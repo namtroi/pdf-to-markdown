@@ -23,6 +23,7 @@ export abstract class ToTextItemTransformation extends Transformation {
   }
 
   override createPageView(page: Page, modificationsOnly?: boolean): any {
+    // @ts-ignore
     return TextItemPageView({
       key: page.index,
       page: page,

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Button, Badge, Form, Collapse, Card, Dropdown, Pagination } from 'react-bootstrap'
-import AutoAffix from 'react-overlays/lib/AutoAffix';
 
 import ParseResult from '../models/ParseResult.jsx';
 
@@ -111,7 +110,7 @@ export default class DebugView extends React.Component {
 
         return (
             <div>
-              <AutoAffix viewportOffsetTop={ 0 } offsetTop={ 0 } container={ this }>
+              <div>
                 <table>
                   <tbody>
                     <tr>
@@ -201,7 +200,7 @@ export default class DebugView extends React.Component {
                     </tr>
                   </tbody>
                 </table>
-              </AutoAffix>
+              </div>
               { !this.state.showStatistics &&
                 <hr style={ { marginTop: '5px' } } /> }
               <ul>
