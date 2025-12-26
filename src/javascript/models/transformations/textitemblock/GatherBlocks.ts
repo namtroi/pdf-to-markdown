@@ -1,6 +1,7 @@
 import { ToLineItemBlockTransformation } from '../ToLineItemBlockTransformation';
 import { ParseResult } from '../../ParseResult';
 import { LineItemBlock } from '../../LineItemBlock';
+import { LineItem } from '../../LineItem';
 import { DETECTED_ANNOTATION } from '../../Annotation';
 import { minXFromPageItems } from '../../../pageItemFunctions';
 
@@ -29,7 +30,7 @@ export class GatherBlocks extends ToLineItemBlockTransformation {
         createdBlocks++;
       };
 
-      const minX = minXFromPageItems(page.items);
+      const minX = minXFromPageItems(page.items as LineItem[]);
       page.items.forEach((item: any) => {
         // @ts-ignore
         if (stashedBlock.items.length > 0 && shouldFlushBlock(stashedBlock, item, minX, mostUsedDistance)) {

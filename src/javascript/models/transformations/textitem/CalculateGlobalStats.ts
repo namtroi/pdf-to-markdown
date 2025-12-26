@@ -1,23 +1,14 @@
 import { ToTextItemTransformation } from '../ToTextItemTransformation';
 import { ParseResult } from '../../ParseResult';
 import { WordFormat } from '../../markdown/WordFormat';
-
-// GlobalStats interface - shared across all transformations
-export interface GlobalStats {
-  mostUsedHeight: number;
-  mostUsedFont: string;
-  mostUsedDistance: number;
-  maxHeight: number;
-  maxHeightFont?: string;
-  fontToFormats: Map<string, string>;
-  [key: string]: any;
-}
+import type { TextItem } from '../../TextItem';
+import type { PDFFont } from '../../../types/globals';
 
 // Stage 1: Calculate global statistics about the PDF document
 export class CalculateGlobalStats extends ToTextItemTransformation {
-  private fontMap: Map<string, any>;
+  private fontMap: Map<string, PDFFont>;
 
-  constructor(fontMap: Map<string, any>) {
+  constructor(fontMap: Map<string, PDFFont>) {
     super('Calculate Statistics');
     this.fontMap = fontMap;
   }
@@ -30,12 +21,13 @@ export class CalculateGlobalStats extends ToTextItemTransformation {
     let maxHeightFont: string | undefined;
 
     parseResult.pages.forEach((page) => {
-      page.items.forEach((item: any) => {
-        heightToOccurrence[item.height] = (heightToOccurrence[item.height] || 0) + 1;
-        fontToOccurrence[item.font] = (fontToOccurrence[item.font] || 0) + 1;
-        if (item.height > maxHeight) {
-          maxHeight = item.height;
-          maxHeightFont = item.font;
+      page.items.forEach((item) => {
+        const textItem = item as TextItem;
+        heightToOccurrence[textItem.height] = (heightToOccurrence[textItem.height] || 0) + 1;
+        fontToOccurrence[textItem.font] = (fontToOccurrence[textItem.font] || 0) + 1;
+        if (textItem.height > maxHeight) {
+          maxHeight = textItem.height;
+          maxHeightFont = textItem.font;
         }
       });
     });
@@ -46,16 +38,17 @@ export class CalculateGlobalStats extends ToTextItemTransformation {
     // Parse line distances
     const distanceToOccurrence: Record<number, number> = {};
     parseResult.pages.forEach((page) => {
-      let lastItemOfMostUsedHeight: any;
-      page.items.forEach((item: any) => {
-        if (item.height === mostUsedHeight && item.text.trim().length > 0) {
-          if (lastItemOfMostUsedHeight && item.y !== lastItemOfMostUsedHeight.y) {
-            const distance = lastItemOfMostUsedHeight.y - item.y;
+      let lastItemOfMostUsedHeight: TextItem | null = null;
+      page.items.forEach((item) => {
+        const textItem = item as TextItem;
+        if (textItem.height === mostUsedHeight && textItem.text.trim().length > 0) {
+          if (lastItemOfMostUsedHeight && textItem.y !== lastItemOfMostUsedHeight.y) {
+            const distance = lastItemOfMostUsedHeight.y - textItem.y;
             if (distance > 0) {
               distanceToOccurrence[distance] = (distanceToOccurrence[distance] || 0) + 1;
             }
           }
-          lastItemOfMostUsedHeight = item;
+          lastItemOfMostUsedHeight = textItem;
         } else {
           lastItemOfMostUsedHeight = null;
         }
@@ -67,7 +60,7 @@ export class CalculateGlobalStats extends ToTextItemTransformation {
     const fontIdToName: string[] = [];
     const fontToFormats = new Map<string, string>();
 
-    this.fontMap.forEach((value: any, key: string) => {
+    this.fontMap.forEach((value: PDFFont, key: string) => {
       fontIdToName.push(`${key} = ${value.name}`);
       const fontName = value.name.toLowerCase();
       let format;
@@ -95,7 +88,7 @@ export class CalculateGlobalStats extends ToTextItemTransformation {
     const newPages = parseResult.pages.map((page) => {
       return {
         ...page,
-        items: page.items.map((textItem: any) => {
+        items: page.items.map((textItem) => {
           return {
             ...textItem
           };

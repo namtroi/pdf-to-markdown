@@ -27,23 +27,27 @@ export const WordType = {
   }
 } as const;
 
+import type { WordFormatValue } from './WordFormat';
+
 export type WordTypeValue = typeof WordType[keyof typeof WordType];
 
 export interface LineItem {
   words: Array<{
     string: string;
-    type?: WordTypeValue;
-    format?: any;
+    type?: WordTypeValue | null;
+    format?: WordFormatValue | null;
   }>;
 }
 
 export function linesToText(lineItems: LineItem[], disableInlineFormats?: boolean): string {
   let text = '';
-  let openFormat: any = null;
+  let openFormat: WordFormatValue | null = null;
 
   const closeFormat = () => {
-    text += openFormat.endSymbol;
-    openFormat = null;
+    if (openFormat) {
+      text += openFormat.endSymbol;
+      openFormat = null;
+    }
   };
 
   lineItems.forEach((line, lineIndex) => {
@@ -78,12 +82,12 @@ export function linesToText(lineItems: LineItem[], disableInlineFormats?: boolea
   return text;
 }
 
-function firstFormat(lineItem: LineItem | null): any {
+function firstFormat(lineItem: LineItem | null): WordFormatValue | null {
   if (!lineItem || lineItem.words.length === 0) {
     return null;
   }
   const firstWord = lineItem.words[0];
-  return firstWord ? firstWord.format : null;
+  return firstWord ? firstWord.format ?? null : null;
 }
 
 function isPunctationCharacter(string: string): boolean {

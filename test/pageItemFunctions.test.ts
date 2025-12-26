@@ -5,21 +5,31 @@ import {
     sortByX,
     sortCopyByX
 } from '../src/javascript/pageItemFunctions';
+import { LineItem } from '../src/javascript/models/LineItem';
+import type { Block } from '../src/javascript/types/globals';
+
+// Helper function to create minimal LineItem for testing
+function createMockLineItem(x: number): LineItem {
+    return new LineItem({ x, y: 0, width: 0, height: 0 });
+}
+
+// Helper function to create minimal Block for testing
+function createMockBlock(xValues: number[]): Block {
+    return { items: xValues.map(x => createMockLineItem(x)) };
+}
 
 describe('pageItemFunctions', () => {
     describe('minXFromBlocks', () => {
         it('returns minimum x coordinate from blocks', () => {
             const blocks = [
-                { items: [{ x: 100 }, { x: 50 }, { x: 75 }] },
-                { items: [{ x: 25 }, { x: 200 }] }
+                createMockBlock([100, 50, 75]),
+                createMockBlock([25, 200])
             ];
             expect(minXFromBlocks(blocks)).toBe(25);
         });
 
         it('returns minimum x from single block', () => {
-            const blocks = [
-                { items: [{ x: 100 }, { x: 50 }, { x: 75 }] }
-            ];
+            const blocks = [createMockBlock([100, 50, 75])];
             expect(minXFromBlocks(blocks)).toBe(50);
         });
 
@@ -28,31 +38,22 @@ describe('pageItemFunctions', () => {
         });
 
         it('returns null for blocks with no items', () => {
-            const blocks = [
-                { items: [] },
-                { items: [] }
-            ];
+            const blocks = [createMockBlock([]), createMockBlock([])];
             expect(minXFromBlocks(blocks)).toBe(null);
         });
 
         it('handles single item in single block', () => {
-            const blocks = [
-                { items: [{ x: 42 }] }
-            ];
+            const blocks = [createMockBlock([42])];
             expect(minXFromBlocks(blocks)).toBe(42);
         });
 
         it('handles negative x coordinates', () => {
-            const blocks = [
-                { items: [{ x: 10 }, { x: -5 }, { x: 20 }] }
-            ];
+            const blocks = [createMockBlock([10, -5, 20])];
             expect(minXFromBlocks(blocks)).toBe(-5);
         });
 
         it('handles x coordinate of 0', () => {
-            const blocks = [
-                { items: [{ x: 0 }, { x: 10 }, { x: 20 }] }
-            ];
+            const blocks = [createMockBlock([0, 10, 20])];
             expect(minXFromBlocks(blocks)).toBe(0);
         });
     });

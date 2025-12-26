@@ -7,12 +7,13 @@ import { Page } from '../models/Page';
 import { TextItem } from '../models/TextItem';
 import { Progress, ProgressStage } from '../models/Progress';
 import type { PDFDocumentProxy, PDFPageProxy } from '../types/pdfjs';
+import type { PDFFont } from '../types/globals';
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.mjs';
 
 interface LoadingViewProps {
     fileBuffer: ArrayBuffer;
-    storePdfPagesFunction: (metadata: any, fontMap: Map<string, any>, pages: any[]) => void;
+    storePdfPagesFunction: (metadata: Metadata, fontMap: Map<string, PDFFont>, pages: Page[]) => void;
 }
 
 interface LoadingState {
@@ -35,10 +36,10 @@ function calculatePercentDone(progress: Progress): number {
 
 export default function LoadingView({ fileBuffer, storePdfPagesFunction }: LoadingViewProps) {
     const documentRef = useRef<PDFDocumentProxy | null>(null);
-    const metadataRef = useRef<any>(null);
-    const pagesRef = useRef<any[]>([]);
+    const metadataRef = useRef<Metadata | null>(null);
+    const pagesRef = useRef<Page[]>([]);
     const fontIdsRef = useRef<Set<string>>(new Set());
-    const fontMapRef = useRef<Map<string, any>>(new Map());
+    const fontMapRef = useRef<Map<string, PDFFont>>(new Map());
     const progressRef = useRef<Progress>(
         new Progress([
             new ProgressStage('Parsing Metadata', 2),

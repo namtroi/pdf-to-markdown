@@ -13,6 +13,11 @@ import { DetectListLevels } from './transformations/textitemblock/DetectListLeve
 import { ToTextBlocks } from './transformations/ToTextBlocks';
 import { ToMarkdown } from './transformations/ToMarkdown';
 
+import type { Metadata } from './Metadata';
+import type { Page } from './Page';
+import type { Transformation } from './transformations/Transformation';
+import type { PDFFont } from '../types/globals';
+
 export enum View {
     UPLOAD = 'UPLOAD',
     LOADING = 'LOADING',
@@ -29,9 +34,9 @@ export default class AppState {
     renderFunction: (appState: AppState) => void;
     mainView: View;
     fileBuffer?: ArrayBuffer;
-    metadata?: any;
-    pages: any[];
-    transformations: any[];
+    metadata?: Metadata;
+    pages: Page[];
+    transformations: Transformation[];
 
     constructor(options: AppStateOptions) {
         this.renderFunction = options.renderFunction;
@@ -57,7 +62,7 @@ export default class AppState {
         this.render();
     }
 
-    storePdfPages(metadata: any, fontMap: any, pages: any[]): void {
+    storePdfPages(metadata: Metadata, fontMap: Map<string, PDFFont>, pages: Page[]): void {
         this.metadata = metadata;
         this.pages = pages;
         this.fileBuffer = undefined;

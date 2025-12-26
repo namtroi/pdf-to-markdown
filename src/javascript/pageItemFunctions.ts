@@ -1,9 +1,15 @@
+import type { Block } from './types/globals';
+
 const INVALID_COORDINATE = 999;
 
-export function minXFromBlocks(blocks: any[]): number | null {
+interface HasXCoordinate {
+    x: number;
+}
+
+export function minXFromBlocks(blocks: Block[]): number | null {
     let minX = INVALID_COORDINATE;
     blocks.forEach(block => {
-        block.items.forEach((item: any) => {
+        block.items.forEach((item) => {
             minX = Math.min(minX, item.x);
         });
     });
@@ -13,7 +19,7 @@ export function minXFromBlocks(blocks: any[]): number | null {
     return minX;
 }
 
-export function minXFromPageItems(items: any[]): number | null {
+export function minXFromPageItems(items: HasXCoordinate[]): number | null {
     let minX = INVALID_COORDINATE;
     items.forEach(item => {
         minX = Math.min(minX, item.x);
@@ -24,13 +30,13 @@ export function minXFromPageItems(items: any[]): number | null {
     return minX;
 }
 
-export function sortByX(items: any[]): void {
-    items.sort((a: any, b: any) => {
+export function sortByX<T extends HasXCoordinate>(items: T[]): void {
+    items.sort((a, b) => {
         return a.x - b.x;
     });
 }
 
-export function sortCopyByX(items: any[]): any[] {
+export function sortCopyByX<T extends HasXCoordinate>(items: T[]): T[] {
     const copy = items.concat();
     sortByX(copy);
     return copy;

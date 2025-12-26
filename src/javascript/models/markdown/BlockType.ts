@@ -1,11 +1,12 @@
 import { linesToText } from './WordType';
+import type { Block } from '../../types/globals';
 
 export const BlockType = {
   H1: {
     name: 'H1',
     headline: true,
     headlineLevel: 1,
-    toText(block: any) {
+    toText(block: Block) {
       return '# ' + linesToText(block.items, true);
     }
   },
@@ -13,7 +14,7 @@ export const BlockType = {
     name: 'H2',
     headline: true,
     headlineLevel: 2,
-    toText(block: any) {
+    toText(block: Block) {
       return '## ' + linesToText(block.items, true);
     }
   },
@@ -21,7 +22,7 @@ export const BlockType = {
     name: 'H3',
     headline: true,
     headlineLevel: 3,
-    toText(block: any) {
+    toText(block: Block) {
       return '### ' + linesToText(block.items, true);
     }
   },
@@ -29,7 +30,7 @@ export const BlockType = {
     name: 'H4',
     headline: true,
     headlineLevel: 4,
-    toText(block: any) {
+    toText(block: Block) {
       return '#### ' + linesToText(block.items, true);
     }
   },
@@ -37,7 +38,7 @@ export const BlockType = {
     name: 'H5',
     headline: true,
     headlineLevel: 5,
-    toText(block: any) {
+    toText(block: Block) {
       return '##### ' + linesToText(block.items, true);
     }
   },
@@ -45,14 +46,14 @@ export const BlockType = {
     name: 'H6',
     headline: true,
     headlineLevel: 6,
-    toText(block: any) {
+    toText(block: Block) {
       return '###### ' + linesToText(block.items, true);
     }
   },
   TOC: {
     name: 'TOC',
     mergeToBlock: true,
-    toText(block: any) {
+    toText(block: Block) {
       return linesToText(block.items, true);
     }
   },
@@ -60,14 +61,14 @@ export const BlockType = {
     name: 'FOOTNOTES',
     mergeToBlock: true,
     mergeFollowingNonTypedItems: true,
-    toText(block: any) {
+    toText(block: Block) {
       return linesToText(block.items, false);
     }
   },
   CODE: {
     name: 'CODE',
     mergeToBlock: true,
-    toText(block: any) {
+    toText(block: Block) {
       return '```\n' + linesToText(block.items, true) + '```';
     }
   },
@@ -75,13 +76,13 @@ export const BlockType = {
     name: 'LIST',
     mergeToBlock: true,
     mergeFollowingNonTypedItemsWithSmallDistance: true,
-    toText(block: any) {
+    toText(block: Block) {
       return linesToText(block.items, false);
     }
   },
   PARAGRAPH: {
     name: 'PARAGRAPH',
-    toText(block: any) {
+    toText(block: Block) {
       return linesToText(block.items, false);
     }
   }
@@ -94,7 +95,7 @@ export function isHeadline(type: BlockTypeValue | null | undefined): boolean {
   return type.name.length === 2 && type.name[0] === 'H';
 }
 
-export function blockToText(block: any): string {
+export function blockToText(block: Block): string {
   if (!block.type) {
     return linesToText(block.items, false);
   }

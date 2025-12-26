@@ -81,11 +81,17 @@ describe('Models', () => {
         it('creates ParseResult with globals and messages', () => {
             const result = new ParseResult({
                 pages: [] as any,
-                globals: { mostUsedHeight: 12 },
+                globals: {
+                    mostUsedHeight: 12,
+                    mostUsedFont: 'Arial',
+                    mostUsedDistance: 10,
+                    maxHeight: 14,
+                    fontToFormats: new Map()
+                },
                 messages: ['Test message']
             });
 
-            expect(result.globals).toEqual({ mostUsedHeight: 12 });
+            expect(result.globals?.mostUsedHeight).toBe(12);
             expect(result.messages).toEqual(['Test message']);
         });
 

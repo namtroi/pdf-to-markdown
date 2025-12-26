@@ -3,6 +3,7 @@ import { ParseResult } from '../../ParseResult';
 import { DETECTED_ANNOTATION } from '../../Annotation';
 import { BlockType } from '../../markdown/BlockType';
 import { minXFromBlocks } from '../../../pageItemFunctions';
+import type { Block } from '../../../types/globals';
 
 //Detect items which are code/quote blocks
 export class DetectCodeQuoteBlocks extends ToLineItemBlockTransformation {
@@ -15,7 +16,7 @@ export class DetectCodeQuoteBlocks extends ToLineItemBlockTransformation {
     const { mostUsedHeight } = parseResult.globals;
     let foundCodeItems = 0;
     parseResult.pages.forEach((page) => {
-      const minX = minXFromBlocks(page.items);
+      const minX = minXFromBlocks(page.items as Block[]);
       page.items.forEach((block: any) => {
         // @ts-ignore
         if (!block.type && looksLikeCodeBlock(minX, block.items, mostUsedHeight)) {
