@@ -1,7 +1,6 @@
 import { expect, describe, it } from 'vitest';
 
-import StashingStream from '../../src/javascript/models/StashingStream';
-import TextItem from '../../src/javascript/models/TextItem.jsx';
+import { StashingStream } from '../../src/javascript/models/StashingStream';
 
 describe('StashingStream', () => {
 

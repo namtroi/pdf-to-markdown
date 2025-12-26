@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 
-import HeadlineFinder from '../src/javascript/models/HeadlineFinder';
-import LineItem from '../src/javascript/models/LineItem.jsx';
+import { HeadlineFinder } from '../src/javascript/models/HeadlineFinder';
+import { LineItem } from '../src/javascript/models/LineItem';
 
 describe('HeadlineFinder', () => {
 
