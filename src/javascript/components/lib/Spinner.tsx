@@ -1,5 +1,7 @@
+import { memo } from 'react';
+
 // Spinner like loading indicator
-export default function Spinner() {
+function Spinner() {
     return (
         <svg
             width="120px"
@@ -182,3 +184,5 @@ export default function Spinner() {
         </svg>
     );
 }
+
+export default memo(Spinner);

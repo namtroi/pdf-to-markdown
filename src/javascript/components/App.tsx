@@ -1,10 +1,13 @@
+import { lazy, Suspense } from 'react';
 import TopBar from './TopBar';
 import { View } from '../models/AppState';
 import UploadView from './UploadView';
 import LoadingView from './LoadingView';
 import ResultView from './ResultView';
-import DebugView from './DebugView';
+import Spinner from './lib/Spinner';
 import AppState from '../models/AppState';
+
+const DebugView = lazy(() => import('./DebugView'));
 
 interface AppProps {
     appState: AppState;
@@ -28,7 +31,11 @@ export default function App({ appState }: AppProps) {
             mainView = <ResultView pages={appState.pages} transformations={appState.transformations} />;
             break;
         case View.DEBUG:
-            mainView = <DebugView pages={appState.pages} transformations={appState.transformations} />;
+            mainView = (
+                <Suspense fallback={<div className="flex justify-center items-center h-screen"><Spinner /></div>}>
+                    <DebugView pages={appState.pages} transformations={appState.transformations} />
+                </Suspense>
+            );
             break;
         default:
             throw `View ${appState.mainView} not supported!`;

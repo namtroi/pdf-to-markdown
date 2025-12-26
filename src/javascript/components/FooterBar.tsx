@@ -1,4 +1,6 @@
-export default function FooterBar() {
+import { memo } from 'react';
+
+function FooterBar() {
     return (
         <nav className="bg-white border-t border-gray-200 px-4 py-3">
             <div className="flex items-center justify-between">
@@ -17,3 +19,5 @@ export default function FooterBar() {
         </nav>
     );
 }
+
+export default memo(FooterBar);

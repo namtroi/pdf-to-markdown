@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import Remarkable from 'remarkable';
 import { FaEdit, FaEye, FaCopy, FaDownload } from 'react-icons/fa';
 
@@ -45,25 +45,25 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
         text: markdownText
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setState(prev => ({ ...prev, text: event.target.value }));
-    };
+    }, []);
 
-    const copyToClipboard = () => {
+    const copyToClipboard = useCallback(() => {
         navigator.clipboard.writeText(state.text);
         // Could add toast here
-    };
+    }, [state.text]);
 
-    const downloadFile = () => {
+    const downloadFile = useCallback(() => {
         const element = document.createElement("a");
         const file = new Blob([state.text], {type: 'text/markdown'});
         element.href = URL.createObjectURL(file);
         element.download = "converted.md";
         document.body.appendChild(element);
         element.click();
-    };
+    }, [state.text]);
 
-    const remarkable = new Remarkable({ breaks: true, html: true });
+    const remarkable = useMemo(() => new Remarkable({ breaks: true, html: true }), []);
     const { preview, text } = state;
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);

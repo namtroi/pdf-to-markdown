@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Menu, Disclosure } from '@headlessui/react';
 
 import { ParseResult } from '../models/ParseResult';
@@ -25,49 +25,51 @@ export default function DebugView({ pages, transformations }: DebugViewProps) {
         showStatistics: false
     });
 
-    const selectPage = (pageNr: number) => {
+    const selectPage = useCallback((pageNr: number) => {
         setState(prev => ({ ...prev, pageNr: pageNr - 1 }));
-    };
+    }, []);
 
-    const selectTransformation = (currentTransformation: number) => {
+    const selectTransformation = useCallback((currentTransformation: number) => {
         setState(prev => ({ ...prev, currentTransformation }));
-    };
+    }, []);
 
-    const nextTransformation = () => {
+    const nextTransformation = useCallback(() => {
         setState(prev => ({ ...prev, currentTransformation: prev.currentTransformation + 1 }));
-    };
+    }, []);
 
-    const prevTransformation = () => {
+    const prevTransformation = useCallback(() => {
         setState(prev => ({ ...prev, currentTransformation: prev.currentTransformation - 1 }));
-    };
+    }, []);
 
-    const showModifications = () => {
+    const showModifications = useCallback(() => {
         setState(prev => ({ ...prev, modificationsOnly: !prev.modificationsOnly }));
-    };
+    }, []);
 
-    const showStatistics = () => {
+    const showStatistics = useCallback(() => {
         setState(prev => ({ ...prev, showStatistics: !prev.showStatistics }));
-    };
+    }, []);
 
     const { currentTransformation, pageNr } = state;
     const currentTransformationName = transformations[currentTransformation]!.name;
 
-    let parseResult = new ParseResult({
-        pages
-    });
-    let lastTransformation: Transformation | undefined;
-    for (let i = 0; i <= currentTransformation; i++) {
-        if (lastTransformation) {
-            parseResult = lastTransformation.completeTransform(parseResult);
+    const { parseResult, lastTransformation, pageComponents } = useMemo(() => {
+        let result = new ParseResult({ pages });
+        let lastT: Transformation | undefined;
+        for (let i = 0; i <= currentTransformation; i++) {
+            if (lastT) {
+                result = lastT.completeTransform(result);
+            }
+            result = transformations[i]!.transform(result);
+            lastT = transformations[i]!;
         }
-        parseResult = transformations[i]!.transform(parseResult);
-        lastTransformation = transformations[i]!;
-    }
 
-    parseResult.pages = parseResult.pages.filter((_elem: any, i: number) => pageNr === -1 || i === pageNr);
-    const pageComponents = parseResult.pages.map((page: any) =>
-        lastTransformation!.createPageView(page, state.modificationsOnly)
-    );
+        result.pages = result.pages.filter((_elem: any, i: number) => pageNr === -1 || i === pageNr);
+        const components = result.pages.map((page: any) =>
+            lastT!.createPageView(page, state.modificationsOnly)
+        );
+
+        return { parseResult: result, lastTransformation: lastT, pageComponents: components };
+    }, [pages, transformations, currentTransformation, pageNr, state.modificationsOnly]);
     const showModificationCheckbox = lastTransformation!.showModificationCheckbox();
     const statisticsAsList = parseResult.globals ? Object.keys(parseResult.globals).map((key: string, i: number) => {
         return (

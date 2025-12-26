@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Menu } from '@headlessui/react';
 import { FaGithub, FaInfoCircle, FaBug, FaBars } from 'react-icons/fa';
 
@@ -8,7 +9,7 @@ interface TopBarProps {
     switchMainViewFunction: (view: View) => void;
 }
 
-export default function TopBar({ mainView, switchMainViewFunction }: TopBarProps) {
+function TopBar({ mainView, switchMainViewFunction }: TopBarProps) {
     const showTabs = mainView === View.RESULT || mainView === View.DEBUG;
 
     return (
@@ -77,3 +78,5 @@ export default function TopBar({ mainView, switchMainViewFunction }: TopBarProps
         </nav>
     );
 }
+
+export default memo(TopBar);
