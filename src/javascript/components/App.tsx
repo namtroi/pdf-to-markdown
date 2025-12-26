@@ -1,5 +1,4 @@
 import TopBar from './TopBar';
-import FooterBar from './FooterBar';
 import { View } from '../models/AppState';
 import UploadView from './UploadView';
 import LoadingView from './LoadingView';
@@ -35,19 +34,15 @@ export default function App({ appState }: AppProps) {
             throw `View ${appState.mainView} not supported!`;
     }
 
-    const title =
-        appState.metadata && appState.metadata.title ? appState.metadata.title : '';
     return (
-        <div>
+        <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
             <TopBar
                 mainView={appState.mainView}
                 switchMainViewFunction={appState.switchMainView}
-                title={title}
             />
-            <div className="container mx-auto px-4">
-                <div>{mainView}</div>
-            </div>
-            <FooterBar />
+            <main className="flex-1 relative bg-slate-100 p-4">
+                {mainView}
+            </main>
         </div>
     );
 }

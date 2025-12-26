@@ -1,13 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaCheck } from 'react-icons/fa';
-import { Line } from 'rc-progress';
+import { FaCheck, FaSpinner, FaCog } from 'react-icons/fa';
 import * as pdfjs from 'pdfjs-dist';
 
-declare const require: any;
-
-const Metadata: any = require('../models/Metadata.jsx').default;
-const Page: any = require('../models/Page.jsx').default;
-const TextItem: any = require('../models/TextItem.jsx').default;
+import { Metadata } from '../models/Metadata';
+import { Page } from '../models/Page';
+import { TextItem } from '../models/TextItem';
 import { Progress, ProgressStage } from '../models/Progress';
 import type { PDFDocumentProxy, PDFPageProxy } from '../types/pdfjs';
 
@@ -37,7 +34,6 @@ function calculatePercentDone(progress: Progress): number {
 }
 
 export default function LoadingView({ fileBuffer, storePdfPagesFunction }: LoadingViewProps) {
-    // Refs for mutable data (no re-render on mutation)
     const documentRef = useRef<PDFDocumentProxy | null>(null);
     const metadataRef = useRef<any>(null);
     const pagesRef = useRef<any[]>([]);
@@ -51,12 +47,10 @@ export default function LoadingView({ fileBuffer, storePdfPagesFunction }: Loadi
         ])
     );
 
-    // UI state - only percentDone triggers re-renders
     const [state, setState] = useState<LoadingState>({
         percentDone: 0
     });
 
-    // Force re-render with updated progress
     const forceRerender = () => {
         setState({
             percentDone: calculatePercentDone(progressRef.current)
@@ -108,7 +102,6 @@ export default function LoadingView({ fileBuffer, storePdfPagesFunction }: Loadi
         }
     };
 
-    // Trigger PDF parsing on mount
     useEffect(() => {
         const loadPdf = () => {
             pdfjs
@@ -130,7 +123,6 @@ export default function LoadingView({ fileBuffer, storePdfPagesFunction }: Loadi
 
                             page.getTextContent().then((textContent: any) => {
                                 const textItems = textContent.items.map((item: any) => {
-                                    // Trigger font resolution
                                     const fontId = item.fontName;
                                     if (!fontIdsRef.current.has(fontId) && fontId.startsWith('g_d0')) {
                                         documentRef.current!._transport.commonObjs.get(
@@ -144,7 +136,6 @@ export default function LoadingView({ fileBuffer, storePdfPagesFunction }: Loadi
                                     }
 
                                     const tx = pdfjs.Util.transform(viewport.transform, item.transform);
-
                                     const fontHeight = Math.sqrt(tx[2] * tx[2] + tx[3] * tx[3]);
                                     const dividedHeight = item.height / fontHeight;
                                     return new TextItem({
@@ -173,7 +164,6 @@ export default function LoadingView({ fileBuffer, storePdfPagesFunction }: Loadi
         loadPdf();
     }, [fileBuffer]);
 
-    // Move side effect from render to useEffect
     useEffect(() => {
         if (state.percentDone === 100) {
             storePdfPagesFunction(metadataRef.current as any, fontMapRef.current, pagesRef.current);
@@ -181,35 +171,58 @@ export default function LoadingView({ fileBuffer, storePdfPagesFunction }: Loadi
     }, [state.percentDone, storePdfPagesFunction]);
 
     const { percentDone } = state;
-    const stageItems = progressRef.current.stages
-        .filter((_elem, i) => i <= progressRef.current.currentStage)
-        .map((stage, i) => {
-            const progressDetails = stage.steps ? stage.stepsDone + ' / ' + stage.steps : '';
-            const checkmark = stage.isComplete() ? <FaCheck color="green" /> : '';
-            return (
-                <div key={i}>
-                    {stage.name}
-                    {' ' + progressDetails + ' '}
-                    {checkmark}
-                </div>
-            );
-        });
 
+    // Smooth progress visualization
     return (
-        <div style={{ textAlign: 'center' }}>
-            <br />
-            <br />
-            <br />
-            <Line percent={percentDone} strokeWidth={2} strokeColor="#D3D3D3" />
-            <br />
-            <br />
-            <div>{stageItems}</div>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+        <div className="flex flex-col items-center justify-center h-full w-full bg-slate-50/50 backdrop-blur-sm">
+            <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
+                <div className="flex justify-center mb-6">
+                    <div className="relative">
+                        <FaCog className="text-4xl text-indigo-200 animate-spin-slow" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <FaSpinner className="text-xl text-indigo-600 animate-spin" />
+                        </div>
+                    </div>
+                </div>
+
+                <h3 className="text-lg font-semibold text-center text-slate-800 mb-2">Processing Document</h3>
+                <p className="text-sm text-slate-500 text-center mb-6">Analyzing structure and extracting content...</p>
+
+                <div className="w-full bg-slate-100 rounded-full h-3 mb-6 overflow-hidden">
+                    <div 
+                        className="bg-indigo-600 h-3 rounded-full transition-all duration-300 ease-out"
+                        style={{ width: `${percentDone}%` }}
+                    ></div>
+                </div>
+
+                <div className="space-y-3">
+                    {progressRef.current.stages.map((stage, i) => {
+                        const isActive = i === progressRef.current.currentStage;
+                        const isComplete = stage.isComplete();
+
+                        return (
+                            <div key={i} className={`flex items-center text-sm transition-colors ${
+                                isActive ? 'text-indigo-700 font-medium' : 
+                                isComplete ? 'text-green-600' : 'text-slate-400'
+                            }`}>
+                                <div className={`w-5 h-5 mr-3 flex items-center justify-center rounded-full border ${
+                                    isComplete ? 'bg-green-100 border-green-200' : 
+                                    isActive ? 'bg-indigo-50 border-indigo-200' : 'border-slate-200'
+                                }`}>
+                                    {isComplete && <FaCheck className="text-xs" />}
+                                    {isActive && <div className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse" />}
+                                </div>
+                                <span>{stage.name}</span>
+                                {stage.steps && stage.steps > 0 && (
+                                    <span className="ml-auto text-xs opacity-75">
+                                        {stage.stepsDone}/{stage.steps}
+                                    </span>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
     );
 }

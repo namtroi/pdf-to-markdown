@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Menu, Disclosure } from '@headlessui/react';
 
-declare const require: any;
-
-const ParseResult: any = require('../models/ParseResult.jsx').default;
+import { ParseResult } from '../models/ParseResult';
 type Page = any;
 type Transformation = any;
 
@@ -71,14 +69,14 @@ export default function DebugView({ pages, transformations }: DebugViewProps) {
         lastTransformation!.createPageView(page, state.modificationsOnly)
     );
     const showModificationCheckbox = lastTransformation!.showModificationCheckbox();
-    const statisticsAsList = Object.keys(parseResult.globals).map((key: string, i: number) => {
+    const statisticsAsList = parseResult.globals ? Object.keys(parseResult.globals).map((key: string, i: number) => {
         return (
-            <li key={i}>{key + ': ' + JSON.stringify(parseResult.globals[key])}</li>
+            <li key={i}>{key + ': ' + JSON.stringify(parseResult.globals![key])}</li>
         );
-    });
-    const messagesAsList = parseResult.messages.map((message: string, i: number) => {
+    }) : [];
+    const messagesAsList = parseResult.messages?.map((message: string, i: number) => {
         return <li key={i}>{message}</li>;
-    });
+    }) || [];
 
     const transformationMenuItems: Array<{ type: string; key: string | number; eventKey?: number; onSelect?: () => void; name?: string }> = [];
     let lastItemType: string | undefined;
