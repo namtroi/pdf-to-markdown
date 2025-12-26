@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import Remarkable from 'remarkable';
 import { FaEdit, FaEye, FaCopy, FaDownload } from 'react-icons/fa';
 
@@ -66,6 +66,16 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
     const remarkable = new Remarkable({ breaks: true, html: true });
     const { preview, text } = state;
 
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Auto-expand textarea height based on content
+    useEffect(() => {
+        if (textareaRef.current && !preview) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+        }
+    }, [text, preview]);
+
     return (
         <div className="max-w-6xl mx-auto flex flex-col">
             {/* Toolbar */}
@@ -118,12 +128,12 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
                     />
                 ) : (
                     <textarea
-                        className="flex-1 w-full p-8 resize-none focus:outline-none font-mono text-sm leading-relaxed text-slate-800 bg-transparent"
+                        ref={textareaRef}
+                        className="w-full p-8 resize-none focus:outline-none font-mono text-sm leading-relaxed text-slate-800 bg-transparent overflow-hidden"
                         value={text}
                         onChange={handleChange}
                         spellCheck={false}
                         placeholder="Markdown content..."
-                        style={{ minHeight: '80vh' }}
                     />
                 )}
             </div>
