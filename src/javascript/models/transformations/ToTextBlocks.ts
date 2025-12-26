@@ -4,7 +4,7 @@ import { Page } from '../Page';
 import { blockToText } from '../markdown/BlockType';
 
 // @ts-ignore - React components, converted in Phase 4
-import TextPageView from '../../components/debug/TextPageView.jsx';
+import TextPageView from '../../components/debug/TextPageView';
 
 export class ToTextBlocks extends Transformation {
   constructor() {

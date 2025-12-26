@@ -3,7 +3,7 @@ import { ParseResult } from '../ParseResult';
 import { Page } from '../Page';
 
 // @ts-ignore - React components, converted in Phase 4
-import MarkdownPageView from '../../components/debug/MarkdownPageView.jsx';
+import MarkdownPageView from '../../components/debug/MarkdownPageView';
 
 export class ToMarkdown extends Transformation {
   constructor() {

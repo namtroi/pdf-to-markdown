@@ -3,7 +3,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap'
 
 import TopBar from './TopBar.jsx';
-import FooterBar from './FooterBar.jsx'
+import FooterBar from './FooterBar'
 import { View } from '../models/AppState';
 import UploadView from './UploadView.jsx';
 import LoadingView from './LoadingView.jsx';

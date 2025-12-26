@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Navbar, Nav, Dropdown, Popover, OverlayTrigger } from 'react-bootstrap';
 
-import AppLogo from './AppLogo.jsx';
+import AppLogo from './AppLogo';
 import { View } from '../models/AppState';
 
 export default class TopBar extends React.Component {

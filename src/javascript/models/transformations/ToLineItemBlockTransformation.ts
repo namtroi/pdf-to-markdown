@@ -5,7 +5,7 @@ import { REMOVED_ANNOTATION } from '../Annotation';
 import { Page } from '../Page';
 
 // @ts-ignore - React components, converted in Phase 4
-import LineItemBlockPageView from '../../components/debug/LineItemBlockPageView.jsx';
+import LineItemBlockPageView from '../../components/debug/LineItemBlockPageView';
 
 // Abstract class for transformations producing LineItemBlock(s) to be shown in the LineItemBlockPageView
 export abstract class ToLineItemBlockTransformation extends Transformation {
