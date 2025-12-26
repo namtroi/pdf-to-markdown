@@ -1,5 +1,5 @@
 import React from 'react';
-import FaCheck from 'react-icons/lib/fa/check'
+import { FaCheck } from 'react-icons/fa'
 
 const pdfjs = require('pdfjs-dist'); // eslint-disable-line no-unused-vars
 import { Line } from 'rc-progress';

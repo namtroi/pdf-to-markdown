@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Grid from 'react-bootstrap/lib/Grid'
+import { Container } from 'react-bootstrap'
 
 import TopBar from './TopBar.jsx';
 import FooterBar from './FooterBar.jsx'
@@ -42,11 +42,11 @@ export default class App extends React.Component {
         return (
             <div>
               <TopBar mainView={ appState.mainView } switchMainViewFunction={ appState.switchMainView } title={ title } />
-              <Grid>
+              <Container>
                 <div>
                   { mainView }
                 </div>
-              </Grid>
+              </Container>
               <FooterBar/>
             </div>
         );

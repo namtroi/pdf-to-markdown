@@ -1,15 +1,6 @@
 import React from 'react';
 
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import Button from 'react-bootstrap/lib/Button'
-import DropdownButton from 'react-bootstrap/lib/DropdownButton'
-import Pagination from 'react-bootstrap/lib/Pagination'
-import MenuItem from 'react-bootstrap/lib/MenuItem'
-import Label from 'react-bootstrap/lib/Label'
-import Checkbox from 'react-bootstrap/lib/Checkbox'
-import Collapse from 'react-bootstrap/lib/Collapse'
-import Panel from 'react-bootstrap/lib/Panel'
+import { Button, Badge, Form, Collapse, Card, Dropdown, Pagination } from 'react-bootstrap'
 import AutoAffix from 'react-overlays/lib/AutoAffix';
 
 import ParseResult from '../models/ParseResult.jsx';
@@ -106,11 +97,15 @@ export default class DebugView extends React.Component {
         var lastItemType;
         transformations.forEach((transformation, i) => {
             if (lastItemType && transformation.itemType !== lastItemType) {
-                transformationMenuItems.push(<MenuItem key={ i + '-divider' } divider />);
+                transformationMenuItems.push({ type: 'divider', key: i + '-divider' });
             }
-            transformationMenuItems.push(<MenuItem key={ i } eventKey={ i } onSelect={ this.selectTransformation.bind(this, i) }>
-                                         { transformation.name }
-                                         </MenuItem>);
+            transformationMenuItems.push({
+              type: 'item',
+              key: i,
+              eventKey: i,
+              onSelect: this.selectTransformation.bind(this, i),
+              name: transformation.name
+            });
             lastItemType = transformation.itemType;
         });
 
@@ -141,58 +136,66 @@ export default class DebugView extends React.Component {
                         </div>
                       </td>
                       <td style={ { padding: '5px', textAlign: 'left' } }>
-                        <Label bsStyle="info">
+                        <Badge bg="info">
                           Pages
-                        </Label>
+                        </Badge>
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        <ButtonToolbar>
-                          <ButtonGroup>
+                        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                          <div role="group">
                             <Button className={ currentTransformation > 0 ? 'btn-round' : 'btn-round disabled' } onClick={ this.prevTransformation.bind(this) }>
                               ← Previous
                             </Button>
-                          </ButtonGroup>
-                          <ButtonGroup>
+                          </div>
+                          <div role="group">
                             { ' ' }
                             <Button className={ currentTransformation < transformations.length - 1 ? 'btn-round' : 'btn-round disabled' } onClick={ this.nextTransformation.bind(this) }>
                               Next →
                             </Button>
-                          </ButtonGroup>
-                          <ButtonGroup>
-                            <DropdownButton title={ currentTransformationName } id="dropdown-size-medium">
-                              { transformationMenuItems }
-                            </DropdownButton>
-                          </ButtonGroup>
-                          <ButtonGroup>
+                          </div>
+                          <div role="group">
+                            <Dropdown>
+                              <Dropdown.Toggle id="dropdown-size-medium">
+                                { currentTransformationName }
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                { transformationMenuItems.map((item) => {
+                                  if (item.type === 'divider') {
+                                    return <Dropdown.Divider key={item.key} />;
+                                  }
+                                  return <Dropdown.Item key={item.key} eventKey={item.eventKey} onSelect={item.onSelect}>
+                                    {item.name}
+                                  </Dropdown.Item>;
+                                }) }
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </div>
+                          <div>
                             { showModificationCheckbox &&
-                              <Checkbox onClick={ this.showModifications.bind(this) }>
-                                Show only modifications
-                              </Checkbox> }
-                          </ButtonGroup>
-                          <ButtonGroup>
-                            <Checkbox onClick={() => this.showStatistics()}>
-                              Show Statistics
-                            </Checkbox>
-                          </ButtonGroup>
-                        </ButtonToolbar>
+                              <Form.Check label="Show only modifications" onChange={ this.showModifications.bind(this) } /> }
+                          </div>
+                          <div>
+                            <Form.Check label="Show Statistics" onChange={() => this.showStatistics()} />
+                          </div>
+                        </div>
                       </td>
                       <td style={ { padding: '5px' } }>
-                        <Label bsStyle="info">
+                        <Badge bg="info">
                           Transformations
                           { ' - ' + currentTransformation + ' / ' + (transformations.length - 1) }
-                        </Label>
+                        </Badge>
                       </td>
                     </tr>
                     <tr>
                       <td>
                         <Collapse in={ this.state.showStatistics }>
-                          <Panel bsStyle="default">
+                          <Card>
                             <ul>
                               { statisticsAsList }
                             </ul>
-                          </Panel>
+                          </Card>
                         </Collapse>
                       </td>
                     </tr>

@@ -1,12 +1,6 @@
 import React from 'react';
 
-import Navbar from 'react-bootstrap/lib/Navbar'
-import Nav from 'react-bootstrap/lib/Nav'
-import NavItem from 'react-bootstrap/lib/NavItem'
-import MenuItem from 'react-bootstrap/lib/MenuItem'
-import Dropdown from 'react-bootstrap/lib/Dropdown'
-import Popover from 'react-bootstrap/lib/Popover'
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
+import { Navbar, Nav, Dropdown, Popover, OverlayTrigger } from 'react-bootstrap';
 
 import AppLogo from './AppLogo.jsx';
 import { View } from '../models/AppState.jsx';
@@ -32,44 +26,42 @@ export default class TopBar extends React.Component {
         const showTabs = mainView == View.RESULT || mainView == View.DEBUG;
 
         return (
-            <Navbar inverse>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Dropdown id="logo-dropdown">
-                    <AppLogo bsRole="toggle" />
-                    <Dropdown.Menu>
-                      <MenuItem divider />
-                      <MenuItem href="https://github.com/jzillmann/pdf-to-markdown/issues" target="_blank"> Feedback & Bug Reports
-                      </MenuItem>
-                      <MenuItem href="http://github.com/jzillmann/pdf-to-markdown" target="_blank"> Code @Github
-                      </MenuItem>
-                      <MenuItem divider />
-                      <OverlayTrigger
-                                      trigger="click"
-                                      rootClose
-                                      placement="bottom"
-                                      overlay={ aboutPopover }>
-                        <MenuItem eventKey="3"> About
-                        </MenuItem>
-                      </OverlayTrigger>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Navbar.Brand>
-                { showTabs &&
-                  <Nav bsStyle="tabs" activeKey={ mainView } pullRight>
-                    <NavItem eventKey={ View.DEBUG } activeKey={ mainView } onSelect={ switchMainViewFunction }>
-                      Debug View
-                    </NavItem>
-                    <NavItem eventKey={ View.RESULT } activeKey={ mainView } onSelect={ switchMainViewFunction }>
-                      Result View
-                    </NavItem>
-                  </Nav> }
-              </Navbar.Header>
-              <Navbar.Collapse>
-                <Navbar.Text pullRight={ true }>
-                  { title }
-                </Navbar.Text>
-              </Navbar.Collapse>
+            <Navbar bg="dark">
+              <Navbar.Brand>
+                <Dropdown id="logo-dropdown">
+                  <Dropdown.Toggle as="span" bsPrefix="">
+                    <AppLogo />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Divider />
+                    <Dropdown.Item href="https://github.com/jzillmann/pdf-to-markdown/issues" target="_blank"> Feedback & Bug Reports
+                    </Dropdown.Item>
+                    <Dropdown.Item href="http://github.com/jzillmann/pdf-to-markdown" target="_blank"> Code @Github
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="bottom"
+                                    overlay={ aboutPopover }>
+                      <Dropdown.Item> About
+                      </Dropdown.Item>
+                    </OverlayTrigger>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Navbar.Brand>
+              { showTabs &&
+                <Nav variant="tabs" activeKey={ mainView } className="ms-auto">
+                  <Nav.Link eventKey={ View.DEBUG } onSelect={ switchMainViewFunction }>
+                    Debug View
+                  </Nav.Link>
+                  <Nav.Link eventKey={ View.RESULT } onSelect={ switchMainViewFunction }>
+                    Result View
+                  </Nav.Link>
+                </Nav> }
+              <Navbar.Text className="ms-auto">
+                { title }
+              </Navbar.Text>
             </Navbar>
         );
     }

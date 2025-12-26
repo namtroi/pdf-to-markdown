@@ -1,6 +1,6 @@
 import React from 'react';
 import PageView from './PageView.jsx';
-import Table from 'react-bootstrap/lib/Table'
+import { Table } from 'react-bootstrap';
 
 export default class TextPageView extends PageView {
 

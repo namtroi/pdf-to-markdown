@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Table from 'react-bootstrap/lib/Table'
+import { Table } from 'react-bootstrap';
 
 // Displays an array of LineItem as a table
 export default class LineItemTable extends React.Component {
@@ -97,7 +97,7 @@ export default class LineItemTable extends React.Component {
         )
 
         return (
-            <Table responsive condensed bordered>
+            <Table responsive size="sm" bordered>
               { tableHeader }
               <tbody>
                 { itemRows }

@@ -1,5 +1,5 @@
 import React from 'react';
-import FaFilePdfO from 'react-icons/lib/fa/file-pdf-o'
+import { FaFilePdf } from 'react-icons/fa'
 
 export default class AppLogo extends React.Component {
 
@@ -22,7 +22,7 @@ export default class AppLogo extends React.Component {
     render() {
         return (
             <a href="" onClick={ this.handleClick }>
-              <FaFilePdfO/> PDF To Markdown Converter</a>
+              <FaFilePdf/> PDF To Markdown Converter</a>
             );
     }
 }

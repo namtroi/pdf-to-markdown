@@ -1,9 +1,7 @@
 import React from 'react';
 import Remarkable from 'remarkable';
 
-import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar'
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
-import Button from 'react-bootstrap/lib/Button'
+import { Button } from 'react-bootstrap';
 
 import ParseResult from '../models/ParseResult.jsx';
 
@@ -82,16 +80,14 @@ export default class ResultView extends React.Component {
         }
         return (
             <div>
-              <ButtonToolbar>
-                <ButtonGroup bsSize="medium">
-                  <Button onClick={ this.switchToEdit.bind(this) } className={ !preview ? 'active' : '' }>
-                    Edit
-                  </Button>
-                  <Button onClick={ this.switchToPreview.bind(this) } className={ preview ? 'active' : '' }>
-                    Preview
-                  </Button>
-                </ButtonGroup>
-              </ButtonToolbar>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                <Button onClick={ this.switchToEdit.bind(this) } variant={ !preview ? 'primary' : 'outline-primary' }>
+                  Edit
+                </Button>
+                <Button onClick={ this.switchToPreview.bind(this) } variant={ preview ? 'primary' : 'outline-primary' }>
+                  Preview
+                </Button>
+              </div>
               <hr/>
               { textComponent }
             </div>
