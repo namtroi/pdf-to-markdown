@@ -1,12 +1,15 @@
 # PDF-To-Markdown Converter
+# PDF to Markdown Converter
 
-Javascript tool to parse PDF files and convert them into Markdown format. Online version at http://pdf2md.morethan.io!
+Convert PDF to Markdown (including images).
+
+[Live Demo](https://namtroi.github.io/pdf-to-markdown/)
 
 ## Major Changes
 
 - **2020/2021** Currently separating the parsing logic from the frontent in order to make it separately available. 
   - [Branch modularize](https://github.com/jzillmann/pdf-to-markdown/tree/modularize) 
-  - Find the current version at https://jzillmann.github.io/pdf-to-markdown-staging/
+  - Find the current version at https://namtroi.github.io/pdf-to-markdown-staging/
   - [Help me](https://github.com/jzillmann/pdf-to-markdown/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+milestone%3Av2) 
 - **Apr 2017** - 0.1: Initial Release
 

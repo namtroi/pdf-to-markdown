@@ -1,9 +1,8 @@
 import { useState, useMemo } from 'react';
 import Remarkable from 'remarkable';
+import { FaEdit, FaEye, FaCopy, FaDownload } from 'react-icons/fa';
 
-declare const require: any;
-
-const ParseResult: any = require('../models/ParseResult.jsx').default;
+import { ParseResult } from '../models/ParseResult';
 type Page = any;
 type Transformation = any;
 
@@ -18,11 +17,9 @@ interface ResultViewState {
 }
 
 export default function ResultView({ pages, transformations }: ResultViewProps) {
-    // Transform pipeline is pure computation - use useMemo
+    // Transform pipeline
     const markdownText = useMemo(() => {
-        let parseResult = new ParseResult({
-            pages
-        });
+        let parseResult = new ParseResult({ pages });
         let lastTransformation: Transformation | undefined;
 
         transformations.forEach(transformation => {
@@ -44,61 +41,111 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
     }, [pages, transformations]);
 
     const [state, setState] = useState<ResultViewState>({
-        preview: true,
+        preview: false, // Default to Edit mode for "Editor" feel
         text: markdownText
     });
-
-    const switchToPreview = () => {
-        setState(prev => ({ ...prev, preview: true }));
-    };
-
-    const switchToEdit = () => {
-        setState(prev => ({ ...prev, preview: false }));
-    };
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setState(prev => ({ ...prev, text: event.target.value }));
     };
 
-    const remarkable = new Remarkable({
-        breaks: true,
-        html: true
-    });
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(state.text);
+        // Could add toast here
+    };
+
+    const downloadFile = () => {
+        const element = document.createElement("a");
+        const file = new Blob([state.text], {type: 'text/markdown'});
+        element.href = URL.createObjectURL(file);
+        element.download = "converted.md";
+        document.body.appendChild(element);
+        element.click();
+    };
+
+    const remarkable = new Remarkable({ breaks: true, html: true });
+    const adjustTextareaHeight = (element: HTMLTextAreaElement) => {
+        element.style.height = 'auto';
+        element.style.height = element.scrollHeight + 'px';
+    };
+
+    const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        adjustTextareaHeight(event.target);
+        handleChange(event);
+    };
+
+    // Auto-adjust height on first render when switching to edit mode
+    const textareaRef = (element: HTMLTextAreaElement | null) => {
+        if (element) {
+            adjustTextareaHeight(element);
+        }
+    };
+
     const { preview, text } = state;
 
-    let textComponent;
-    if (preview) {
-        const html = remarkable.render(text);
-        textComponent = <div dangerouslySetInnerHTML={{ __html: html }} />;
-    } else {
-        textComponent = (
-            <textarea
-                rows={45}
-                cols={150}
-                value={text}
-                onChange={handleChange}
-            />
-        );
-    }
-
     return (
-        <div>
-            <div className="flex gap-2 mb-4">
-                <button
-                    onClick={switchToEdit}
-                    className={!preview ? 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded' : 'border border-blue-500 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded'}
-                >
-                    Edit
-                </button>
-                <button
-                    onClick={switchToPreview}
-                    className={preview ? 'bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded' : 'border border-blue-500 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded'}
-                >
-                    Preview
-                </button>
+        <div className="max-w-6xl mx-auto flex flex-col">
+            {/* Toolbar */}
+            <div className="flex items-center justify-between bg-white p-2 rounded-xl shadow-sm border border-slate-200 mb-4 sticky top-16 z-40">
+                <div className="flex bg-slate-100 p-1 rounded-lg">
+                    <button
+                        onClick={() => setState(prev => ({ ...prev, preview: false }))}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                            !preview 
+                            ? 'bg-white text-indigo-600 shadow-sm' 
+                            : 'text-slate-500 hover:text-slate-700'
+                        }`}
+                    >
+                        <FaEdit /> Edit
+                    </button>
+                    <button
+                        onClick={() => setState(prev => ({ ...prev, preview: true }))}
+                        className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                            preview 
+                            ? 'bg-white text-indigo-600 shadow-sm' 
+                            : 'text-slate-500 hover:text-slate-700'
+                        }`}
+                    >
+                        <FaEye /> Preview
+                    </button>
+                </div>
+
+                <div className="flex gap-2">
+                    <button 
+                        onClick={copyToClipboard}
+                        className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg text-sm font-medium transition-colors"
+                    >
+                        <FaCopy /> Copy
+                    </button>
+                    <button 
+                        onClick={downloadFile}
+                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm"
+                    >
+                        <FaDownload /> Download
+                    </button>
+                </div>
             </div>
-            <hr />
-            {textComponent}
+
+            {/* Editor Surface */}
+            <div className="bg-white rounded-xl min-h-[80vh] flex flex-col">
+                {preview ? (
+                    <div 
+                        className="prose prose-slate max-w-none p-8 font-serif"
+                        dangerouslySetInnerHTML={{ __html: remarkable.render(text) }} 
+                    />
+                ) : (
+                    <textarea
+                        ref={textareaRef}
+                        className="flex-1 w-full p-8 resize-none focus:outline-none font-mono text-sm leading-relaxed text-slate-800 bg-transparent overflow-hidden"
+                        value={text}
+                        onChange={handleInput}
+                        spellCheck={false}
+                        placeholder="Markdown content..."
+                        style={{ minHeight: '80vh' }}
+                    />
+                )}
+            </div>
+            <div className="h-8"></div>
         </div>
     );
 }

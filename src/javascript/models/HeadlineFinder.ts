@@ -1,4 +1,3 @@
-// @ts-ignore - stringFunctions not typed
 import { normalizedCharCodeArray } from '../stringFunctions';
 import { LineItem } from './LineItem';
 

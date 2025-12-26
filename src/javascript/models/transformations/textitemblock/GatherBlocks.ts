@@ -2,7 +2,6 @@ import { ToLineItemBlockTransformation } from '../ToLineItemBlockTransformation'
 import { ParseResult } from '../../ParseResult';
 import { LineItemBlock } from '../../LineItemBlock';
 import { DETECTED_ANNOTATION } from '../../Annotation';
-// @ts-ignore - pageItemFunctions not typed
 import { minXFromPageItems } from '../../../pageItemFunctions';
 
 // Gathers lines to blocks

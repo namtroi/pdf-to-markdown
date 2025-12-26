@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { FaCloud } from 'react-icons/fa';
+import { FaCloudUploadAlt, FaFilePdf } from 'react-icons/fa';
 
 interface UploadViewProps {
     uploadPdfFunction: (buffer: Uint8Array) => void;
@@ -34,49 +34,44 @@ export default function UploadView({ uploadPdfFunction }: UploadViewProps) {
         },
     });
 
-    const dropzoneStyle = {
-        width: 400,
-        height: 500,
-        borderWidth: 2,
-        borderColor: isDragActive ? '#4CAF50' : '#666',
-        borderStyle: 'dashed',
-        borderRadius: 5,
-        display: 'table-cell',
-        textAlign: 'center' as const,
-        verticalAlign: 'middle' as const,
-        cursor: 'pointer',
-        transition: 'border-color 0.3s',
-    };
-
     return (
-        <div>
-            <div {...getRootProps({ style: dropzoneStyle })}>
+        <div className="flex items-center justify-center h-full w-full p-4">
+            <div 
+                {...getRootProps()}
+                className={`
+                    w-full max-w-2xl 
+                    backdrop-blur-md bg-white/70 
+                    border-2 border-dashed rounded-2xl 
+                    flex flex-col items-center justify-center 
+                    p-16 transition-all duration-300 cursor-pointer shadow-xl
+                    ${isDragActive ? 'border-indigo-500 bg-indigo-50/80 scale-[1.02]' : 'border-slate-300 hover:border-indigo-400 hover:bg-white/90'}
+                `}
+            >
                 <input {...getInputProps()} />
-                <div className="container mx-auto px-4">
-                    <h2>Drop your PDF file here!</h2>
+                
+                <div className={`p-6 rounded-full bg-indigo-50 mb-6 transition-transform duration-300 ${isDragActive ? 'scale-110' : ''}`}>
+                    {isDragActive ? <FaFilePdf className="text-indigo-600 text-5xl" /> : <FaCloudUploadAlt className="text-indigo-600 text-5xl" />}
                 </div>
-                <h1>
-                    <FaCloud width={100} height={100} />
-                </h1>
-                <br />
-                <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
-                    <i>
-                        This tool converts a PDF file into a Markdown text format! Simply drag &
-                        drop your PDF file on the upload area and go from there. Don't expect
-                        wonders, there are a lot of variances in generated PDF's from different
-                        tools and different ages. No matter how good the parser works for your
-                        PDF, you will have to invest a good amount of manual work to complete it.
-                        Though this tool aims to be general purpose, it has been tested on a
-                        certain set of PDF's only.
-                    </i>
+
+                <h2 className="text-2xl font-semibold text-slate-800 mb-2 text-center">
+                    {isDragActive ? 'Drop your PDF here' : 'Drop your PDF here'}
+                </h2>
+                
+                <p className="text-slate-500 mb-8 text-center max-w-md">
+                    Drag and drop your file, or click to browse.
+                </p>
+
+                <div className="px-6 py-2 rounded-full border border-indigo-200 text-indigo-600 font-medium hover:bg-indigo-50 transition-colors">
+                    Browse Files
+                </div>
+
+                <div className="mt-12 text-center max-w-lg">
+                    <p className="text-xs text-slate-400">
+                        This tool analyzes the structure of your PDF (Headers, Lists, TOC) and converts it to clean Markdown.
+                        Perfect for migrating documentation or extracting content.
+                    </p>
                 </div>
             </div>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
         </div>
     );
 }

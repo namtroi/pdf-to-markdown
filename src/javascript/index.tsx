@@ -5,12 +5,16 @@ import '../css/styles.css';
 import App from './components/App';
 import AppState from './models/AppState';
 
+let root: ReturnType<typeof createRoot> | undefined;
+
 function render(appState: AppState) {
-    const container = document.getElementById('main');
-    if (!container) {
-        throw new Error('Could not find root element');
+    if (!root) {
+        const container = document.getElementById('main');
+        if (!container) {
+            throw new Error('Could not find root element');
+        }
+        root = createRoot(container);
     }
-    const root = createRoot(container);
     root.render(<App appState={appState} />);
 }
 

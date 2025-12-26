@@ -6,7 +6,7 @@ export default function FooterBar() {
                     This is a offline tool, your data stays locally and is not send to any server!
                 </span>
                 <a
-                    href="https://github.com/jzillmann/pdf-to-markdown/issues"
+                    href="https://github.com/namtroi/pdf-to-markdown/issues"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-800"
