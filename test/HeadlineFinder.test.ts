@@ -10,12 +10,15 @@ describe('HeadlineFinder', () => {
             headline: 'My Little Headline'
         });
         const item1 = new LineItem({
+            x: 0, y: 0, width: 10, height: 10,
             text: 'My '
         });
         const item2 = new LineItem({
+            x: 10, y: 0, width: 10, height: 10,
             text: 'Little'
         });
         const item3 = new LineItem({
+            x: 20, y: 0, width: 10, height: 10,
             text: ' Headline2'
         });
 
@@ -36,12 +39,15 @@ describe('HeadlineFinder', () => {
             headline: 'My Little Headline'
         });
         const item1 = new LineItem({
+            x: 0, y: 0, width: 10, height: 10,
             text: 'My '
         });
         const item2 = new LineItem({
+            x: 10, y: 0, width: 10, height: 10,
             text: 'Little'
         });
         const item3 = new LineItem({
+            x: 20, y: 0, width: 10, height: 10,
             text: ' Headline'
         });
 
@@ -65,15 +71,19 @@ describe('HeadlineFinder', () => {
             headline: 'My Little Headline'
         });
         const item0 = new LineItem({
+            x: 0, y: 0, width: 10, height: 10,
             text: 'Waste '
         });
         const item1 = new LineItem({
+            x: 0, y: 0, width: 10, height: 10,
             text: 'My '
         });
         const item2 = new LineItem({
+            x: 10, y: 0, width: 10, height: 10,
             text: 'Little'
         });
         const item3 = new LineItem({
+            x: 20, y: 0, width: 10, height: 10,
             text: ' Headline'
         });
 
@@ -99,15 +109,19 @@ describe('HeadlineFinder', () => {
             headline: 'My Little Headline'
         });
         const item0 = new LineItem({
+            x: 0, y: 0, width: 10, height: 10,
             text: 'My '
         });
         const item1 = new LineItem({
+            x: 0, y: 0, width: 10, height: 10,
             text: 'My '
         });
         const item2 = new LineItem({
+            x: 10, y: 0, width: 10, height: 10,
             text: 'Little'
         });
         const item3 = new LineItem({
+            x: 20, y: 0, width: 10, height: 10,
             text: ' Headline'
         });
 
@@ -134,12 +148,15 @@ describe('HeadlineFinder', () => {
             headline: 'MYLitt le HEADline'
         });
         const item1 = new LineItem({
+            x: 0, y: 0, width: 10, height: 10,
             text: 'My '
         });
         const item2 = new LineItem({
+            x: 10, y: 0, width: 10, height: 10,
             text: 'Little'
         });
         const item3 = new LineItem({
+            x: 20, y: 0, width: 10, height: 10,
             text: ' Headline'
         });
 

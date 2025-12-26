@@ -42,22 +42,23 @@ describe('StashingStream', () => {
 
 
 class MyStashingStream extends StashingStream {
+    transformedItems: number;
 
     constructor() {
         super();
         this.transformedItems = 0;
     }
 
-    shouldStash(item) {
+    shouldStash(item: any): boolean {
         return item === 'a' || item === 'z' || item === 'm';
     }
 
-    doMatchesStash(lastItem, item) {
+    doMatchesStash(lastItem: any, item: any): boolean {
         return lastItem === item;
     }
 
-    doFlushStash(stash, results) {
+    doFlushStash(stash: any[], results: any[]): void {
         this.transformedItems += stash.length;
-        results.push(...stash.filter(elem => elem !== 'm').map(item => item.toUpperCase()));
+        results.push(...stash.filter((elem: any) => elem !== 'm').map((item: any) => item.toUpperCase()));
     }
 }
