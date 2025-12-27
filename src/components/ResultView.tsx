@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import Remarkable from 'remarkable';
+import MarkdownIt from 'markdown-it';
 import { FaEdit, FaEye, FaCopy, FaDownload } from 'react-icons/fa';
 
 import { ParseResult } from '../models/ParseResult';
@@ -63,7 +63,7 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
         element.click();
     }, [state.text]);
 
-    const remarkable = useMemo(() => new Remarkable({ breaks: true, html: true }), []);
+    const md = useMemo(() => new MarkdownIt({ breaks: true, html: true }), []);
     const { preview, text } = state;
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -124,7 +124,7 @@ export default function ResultView({ pages, transformations }: ResultViewProps) 
                 {preview ? (
                     <div
                         className="prose prose-slate max-w-none p-8 font-serif"
-                        dangerouslySetInnerHTML={{ __html: remarkable.render(text) }}
+                        dangerouslySetInnerHTML={{ __html: md.render(text) }}
                     />
                 ) : (
                     <textarea

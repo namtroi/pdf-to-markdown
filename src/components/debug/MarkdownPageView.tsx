@@ -1,4 +1,4 @@
-import Remarkable from 'remarkable';
+import MarkdownIt from 'markdown-it';
 import PageView from './PageView';
 import type { Page } from '../../models/Page';
 
@@ -15,10 +15,10 @@ export default function MarkdownPageView({
     showWhitespaces,
 }: MarkdownPageViewProps) {
     const createItemViews = (items: string[]) => {
-        const remarkable = new Remarkable({
+        const md = new MarkdownIt({
             breaks: true,
         });
-        const html = remarkable.render(items[0] || '');
+        const html = md.render(items[0] || '');
         return (
             <div>
                 <div dangerouslySetInnerHTML={{ __html: html }} />
