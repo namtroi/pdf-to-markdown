@@ -17,7 +17,9 @@ function TopBar({ mainView, switchMainViewFunction }: TopBarProps) {
             <div className="max-w-6xl mx-auto h-full flex items-center justify-between">
             {/* Left */}
             <div className="flex items-center">
-                <span className="font-bold text-slate-800 text-lg tracking-tight">PDF To Markdown</span>
+                <a href="." className="font-bold text-slate-800 text-lg tracking-tight hover:text-slate-600 transition-colors">
+                    PDF To Markdown
+                </a>
             </div>
 
             {/* Center: Tabs (Modern Pills) */}
@@ -67,7 +69,12 @@ function TopBar({ mainView, switchMainViewFunction }: TopBarProps) {
                             <FaBug className="text-slate-400" />
                             Report a Bug
                         </Menu.Item>
-                        <Menu.Item as="div" className="flex items-center gap-2 px-4 py-2 hover:bg-slate-50 rounded-lg text-sm cursor-pointer">
+                        <Menu.Item 
+                            as="a" 
+                            href="https://github.com/namtroi/pdf-to-markdown" 
+                            target="_blank"
+                            className="flex items-center gap-2 px-4 py-2 hover:bg-slate-50 rounded-lg text-sm cursor-pointer"
+                        >
                             <FaInfoCircle className="text-slate-400" />
                             About v{__APP_VERSION__}
                         </Menu.Item>
