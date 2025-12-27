@@ -51,52 +51,32 @@ npm install
 
 ### Development
 
-```bash
-# Start the Vite dev server (Fast HMR)
-npm run dev
+- `npm run dev` - Dev server
+- `npm run check` - Type + lint + test
 
-# Run the full quality check (Type-check + Lint + Test)
-npm run check
+### Build
 
-# Type-check and build for production
-npm run build
+- `npm run build` - Production build
 
-```
+### Tech Stack
 
-## 🛠 Architecture
+- **React 19** with TypeScript
+- **Vite** for build tooling
+- **Tailwind CSS v4** for styling
+- **Headless UI** for accessible components
+- **Vitest** for testing
+- **pdfjs-dist 5.4** for PDF parsing
 
-The conversion pipeline consists of **12 granular transformation stages**:
+## Contribute
 
-1. **Extract:** Raw text & geometry from PDF.js.
-2. **Structure:** Detect headers, list items, and blocks.
-3. **Refine:** Remove repetition, merge lines, detect code blocks.
-4. **Output:** Render final Markdown.
+Use the [issue tracker](https://github.com/jzillmann/pdf-to-markdown/issues) and/or open [pull requests](https://github.com/jzillmann/pdf-to-markdown/pulls)!
 
-See [ARCHITECTURE.md](https://www.google.com/search?q=docs/ARCHITECTURE.md) for a deep dive into the logic.
 
-## 🚧 Current Status & Roadmap
+## Credits
 
-This project is currently maintained by a solo developer. While the core logic is robust and fully typed, we are practically pragmatic about the codebase:
-
-* ✅ **Core Pipeline:** Fully migrated to TypeScript with strict types.
-* ✅ **Tests:** >77% coverage with Vitest.
-* ⚠️ **UI Components:** You might spot a few `@ts-ignore` or `any` types in the legacy view components.
-
-**Contributions are welcome!** If you're looking for a `Good First Issue`, helping us kill the last few `any` types in the UI would be amazing.
-
-## 🤝 Contributing
-
-1. Fork the repo.
-2. Create your feature branch (`git checkout -b feature/amazing-feature`).
-3. Commit your changes (`git commit -m 'Add some amazing feature'`).
-4. Push to the branch (`git push origin feature/amazing-feature`).
-5. Open a Pull Request.
-
-## 📜 Credits
-
-* **Original Author:** Heavily inspired by and forked from [jzillmann/pdf-to-markdown](https://github.com/jzillmann/pdf-to-markdown). Massive kudos for the original algorithm.
-* **PDF Engine:** Powered by [Mozilla's PDF.js](https://mozilla.github.io/pdf.js/).
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+- [pdf.js](https://mozilla.github.io/pdf.js/) - Mozilla's PDF parsing & rendering platform (pdfjs-dist 5.4)
+- [React](https://react.dev/) - UI framework
+- [Vite](https://vitejs.dev/) - Frontend build tool
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Headless UI](https://headlessui.com/) - Accessible component library
+- [TypeScript](https://www.typescriptlang.org/) - Language and type safety
