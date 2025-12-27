@@ -42,7 +42,7 @@ export default function LandingContent() {
                 <h2 className="text-3xl font-bold text-slate-800 mb-12">How It Works</h2>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-8 relative">
                     {/* Connecting Line (Desktop) */}
-                    <div className="hidden md:block absolute top-12 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-indigo-100 via-indigo-200 to-indigo-100 -z-10"></div>
+                    <div className="hidden md:block absolute top-12 left-1/4 right-1/4 h-0.5 bg-liner-to-r from-indigo-100 via-indigo-200 to-indigo-100 -z-10"></div>
 
                     <div className="w-64 flex flex-col items-center relative bg-slate-100/50 p-4 rounded-xl">
                         <div className="w-24 h-24 bg-white rounded-full shadow-md flex items-center justify-center mb-6 border-4 border-indigo-50 text-indigo-500 font-bold text-2xl">

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://namtroi.github.io/pdf-to-markdown/sitemap.xml

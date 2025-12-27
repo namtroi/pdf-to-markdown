@@ -44,7 +44,7 @@ This is a complete modernization of the original [pdf-to-markdown](https://githu
 ### Installation
 
 ```bash
-git clone [https://github.com/namtroi/pdf-to-markdown.git](https://github.com/namtroi/pdf-to-markdown.git)
+git clone https://github.com/namtroi/pdf-to-markdown.git
 cd pdf-to-markdown
 npm install
 
@@ -73,7 +73,7 @@ The conversion pipeline consists of **12 granular transformation stages**:
 3. **Refine:** Remove repetition, merge lines, detect code blocks.
 4. **Output:** Render final Markdown.
 
-See [ARCHITECTURE.md](https://www.google.com/search?q=docs/ARCHITECTURE.md) for a deep dive into the logic.
+See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for a deep dive into the logic.
 
 ## 🚧 Current Status & Roadmap
 
