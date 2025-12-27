@@ -36,16 +36,14 @@ See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for details.
 npm install
 ```
 
-### Development Commands
+### Development
 
-- `npm run dev` - Start Vite dev server (http://localhost:5173)
-- `npm run build` - Type-check and build for production
-- `npm run preview` - Preview production build locally
-- `npm run type-check` - Run TypeScript type checking
-- `npm run lint` - Lint code with ESLint
-- `npm test` - Run tests with Vitest
-- `npm run test:ui` - Open Vitest UI dashboard
-- `npm run check` - Run type-check + lint + test
+- `npm run dev` - Dev server
+- `npm run check` - Type + lint + test
+
+### Build
+
+- `npm run build` - Production build
 
 ### Tech Stack
 

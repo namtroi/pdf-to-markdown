@@ -4,6 +4,7 @@ import { Word } from '../src/models/Word';
 import { ParseResult } from '../src/models/ParseResult';
 import { WordFormat } from '../src/models/markdown/WordFormat';
 import { WordType } from '../src/models/markdown/WordType';
+import { Page } from '../src/models/Page';
 
 describe('Models', () => {
     describe('TextItem', () => {
@@ -68,11 +69,14 @@ describe('Models', () => {
     describe('ParseResult', () => {
         it('creates ParseResult with pages', () => {
             const pages = [
-                { items: [{ text: 'Page 1', x: 0, y: 0, width: 100, height: 12, font: 'Arial' }] }
+                new Page({
+                    index: 0,
+                    items: [new TextItem({ text: 'Page 1', x: 0, y: 0, width: 100, height: 12, font: 'Arial' })]
+                })
             ];
 
             const result = new ParseResult({
-                pages: pages as any
+                pages: pages
             });
 
             expect(result.pages).toEqual(pages);
@@ -80,7 +84,7 @@ describe('Models', () => {
 
         it('creates ParseResult with globals and messages', () => {
             const result = new ParseResult({
-                pages: [] as any,
+                pages: [],
                 globals: {
                     mostUsedHeight: 12,
                     mostUsedFont: 'Arial',
@@ -96,13 +100,13 @@ describe('Models', () => {
         });
 
         it('messages and globals are optional', () => {
-            const result = new ParseResult({ pages: [] as any });
+            const result = new ParseResult({ pages: [] });
             expect(result.messages).toBeUndefined();
             expect(result.globals).toBeUndefined();
         });
 
         it('can create with empty messages array', () => {
-            const result = new ParseResult({ pages: [] as any, messages: [] });
+            const result = new ParseResult({ pages: [], messages: [] });
             expect(result.messages).toEqual([]);
             expect(Array.isArray(result.messages)).toBe(true);
         });

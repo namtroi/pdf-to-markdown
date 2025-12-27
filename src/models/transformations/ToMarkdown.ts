@@ -2,7 +2,6 @@ import { Transformation } from './Transformation';
 import { ParseResult } from '../ParseResult';
 import { Page } from '../Page';
 
-// @ts-ignore - React components, converted in Phase 4
 import MarkdownPageView from '../../components/debug/MarkdownPageView';
 
 /**
@@ -23,7 +22,6 @@ export class ToMarkdown extends Transformation {
    * @returns React component for visualization
    */
   override createPageView(page: Page, _modificationsOnly?: boolean): any {
-    // @ts-ignore
     return MarkdownPageView({
       key: page.index,
       page: page,

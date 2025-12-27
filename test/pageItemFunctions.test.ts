@@ -3,7 +3,8 @@ import {
     minXFromBlocks,
     minXFromPageItems,
     sortByX,
-    sortCopyByX
+    sortCopyByX,
+    HasXCoordinate
 } from '../src/utils/pageItemFunctions';
 import { LineItem } from '../src/models/LineItem';
 import type { Block } from '../src/types/globals';
@@ -150,7 +151,7 @@ describe('pageItemFunctions', () => {
         });
 
         it('handles empty array', () => {
-            const items: any[] = [];
+            const items: HasXCoordinate[] = [];
             sortByX(items);
             expect(items).toEqual([]);
         });
@@ -219,7 +220,7 @@ describe('pageItemFunctions', () => {
         });
 
         it('handles empty array', () => {
-            const items: any[] = [];
+            const items: HasXCoordinate[] = [];
             const sorted = sortCopyByX(items);
             expect(sorted).toEqual([]);
             expect(sorted).not.toBe(items);

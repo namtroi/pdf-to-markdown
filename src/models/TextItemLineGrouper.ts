@@ -1,4 +1,3 @@
-// @ts-ignore - pageItemFunctions not typed
 import { sortByX } from '../utils/pageItemFunctions';
 import { TextItem } from './TextItem';
 

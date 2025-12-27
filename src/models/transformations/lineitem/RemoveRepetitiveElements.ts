@@ -1,7 +1,6 @@
 import { ToLineItemTransformation } from '../ToLineItemTransformation';
 import { ParseResult } from '../../ParseResult';
 import { REMOVED_ANNOTATION } from '../../Annotation';
-// @ts-ignore - stringFunctions not typed
 import { isDigit } from '../../../utils/stringFunctions';
 
 const SPACE_CHAR_CODE = 32;

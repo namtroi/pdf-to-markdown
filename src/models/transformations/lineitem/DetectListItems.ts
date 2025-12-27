@@ -4,7 +4,6 @@ import { LineItem } from '../../LineItem';
 import { Word } from '../../Word';
 import { REMOVED_ANNOTATION, ADDED_ANNOTATION, DETECTED_ANNOTATION } from '../../Annotation';
 import { BlockType } from '../../markdown/BlockType';
-// @ts-ignore - stringFunctions not typed
 import { isListItemCharacter, isNumberedListItem } from '../../../utils/stringFunctions';
 
 /**

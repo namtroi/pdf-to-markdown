@@ -15,7 +15,6 @@ export class GatherBlocks extends ToLineItemBlockTransformation {
   }
 
   override transform(parseResult: ParseResult): ParseResult {
-    // @ts-ignore - globals not typed
     const { mostUsedDistance } = parseResult.globals;
     let createdBlocks = 0;
     let lineItemCount = 0;
@@ -35,7 +34,6 @@ export class GatherBlocks extends ToLineItemBlockTransformation {
 
       const minX = minXFromPageItems(page.items as LineItem[]);
       page.items.forEach((item: any) => {
-        // @ts-ignore
         if (stashedBlock.items.length > 0 && shouldFlushBlock(stashedBlock, item, minX, mostUsedDistance)) {
           flushStashedItems();
         }

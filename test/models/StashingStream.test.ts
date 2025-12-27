@@ -41,7 +41,7 @@ describe('StashingStream', () => {
 });
 
 
-class MyStashingStream extends StashingStream {
+class MyStashingStream extends StashingStream<string> {
     transformedItems: number;
 
     constructor() {
@@ -49,16 +49,16 @@ class MyStashingStream extends StashingStream {
         this.transformedItems = 0;
     }
 
-    shouldStash(item: any): boolean {
+    shouldStash(item: string): boolean {
         return item === 'a' || item === 'z' || item === 'm';
     }
 
-    doMatchesStash(lastItem: any, item: any): boolean {
+    doMatchesStash(lastItem: string, item: string): boolean {
         return lastItem === item;
     }
 
-    doFlushStash(stash: any[], results: any[]): void {
+    doFlushStash(stash: string[], results: string[]): void {
         this.transformedItems += stash.length;
-        results.push(...stash.filter((elem: any) => elem !== 'm').map((item: any) => item.toUpperCase()));
+        results.push(...stash.filter((elem: string) => elem !== 'm').map((item: string) => item.toUpperCase()));
     }
 }

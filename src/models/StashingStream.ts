@@ -1,7 +1,7 @@
 // Abstract stream which allows stash items temporarily
-export abstract class StashingStream {
-  protected results: any[] = [];
-  protected stash: any[] = [];
+export abstract class StashingStream<T> {
+  protected results: T[] = [];
+  protected stash: T[] = [];
 
   constructor() {
     if (new.target === StashingStream) {
@@ -9,11 +9,11 @@ export abstract class StashingStream {
     }
   }
 
-  consumeAll(items: any[]): void {
+  consumeAll(items: T[]): void {
     items.forEach((item) => this.consume(item));
   }
 
-  consume(item: any): void {
+  consume(item: T): void {
     if (this.shouldStash(item)) {
       if (!this.matchesStash(item)) {
         this.flushStash();
@@ -27,12 +27,12 @@ export abstract class StashingStream {
     }
   }
 
-  protected pushOnStash(item: any): void {
+  protected pushOnStash(item: T): void {
     this.onPushOnStash(item);
     this.stash.push(item);
   }
 
-  complete(): any[] {
+  complete(): T[] {
     if (this.stash.length > 0) {
       this.flushStash();
     }
@@ -40,11 +40,11 @@ export abstract class StashingStream {
   }
 
   // return true if the item matches the items of the stack
-  private matchesStash(item: any): boolean {
+  private matchesStash(item: T): boolean {
     if (this.stash.length === 0) {
       return true;
     }
-    const lastItem = this.stash[this.stash.length - 1];
+    const lastItem = this.stash[this.stash.length - 1]!;
     return this.doMatchesStash(lastItem, item);
   }
 
@@ -55,13 +55,13 @@ export abstract class StashingStream {
     }
   }
 
-  protected onPushOnStash(_item: any): void {
+  protected onPushOnStash(_item: T): void {
     // sub-classes may override
   }
 
-  protected abstract shouldStash(item: any): boolean;
+  protected abstract shouldStash(item: T): boolean;
 
-  protected abstract doMatchesStash(lastItem: any, item: any): boolean;
+  protected abstract doMatchesStash(lastItem: T, item: T): boolean;
 
-  protected abstract doFlushStash(stash: any[], results: any[]): void;
+  protected abstract doFlushStash(stash: T[], results: T[]): void;
 }

@@ -5,7 +5,7 @@ const INVALID_COORDINATE = 999;
 /**
  * Interface for items with x-coordinate positioning.
  */
-interface HasXCoordinate {
+export interface HasXCoordinate {
     x: number;
 }
 

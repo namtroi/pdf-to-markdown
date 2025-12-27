@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { ParseResult } from '../src/models/ParseResult';
 
 // Note: These imports use .jsx files directly since components haven't been fully migrated
 // The test demonstrates the transformation pipeline architecture
@@ -101,19 +102,25 @@ describe('Transformation Pipeline - Integration', () => {
 
     it('Transformation messages accumulate', () => {
         // Test message collection during pipeline
-        const parseResult: { pages: any[]; globals: any; messages: string[] } = {
+        const parseResult: ParseResult = {
             pages: [],
-            globals: {},
+            globals: {
+                mostUsedHeight: 0,
+                mostUsedFont: '',
+                mostUsedDistance: 0,
+                maxHeight: 0,
+                fontToFormats: new Map()
+            },
             messages: []
         };
 
-        parseResult.messages.push('Stage 1 complete');
-        parseResult.messages.push('Stage 2 complete');
-        parseResult.messages.push('Stage 3 complete');
+        parseResult.messages!.push('Stage 1 complete');
+        parseResult.messages!.push('Stage 2 complete');
+        parseResult.messages!.push('Stage 3 complete');
 
         expect(parseResult.messages).toHaveLength(3);
-        expect(parseResult.messages[0]).toBe('Stage 1 complete');
-        expect(parseResult.messages[parseResult.messages.length - 1]).toBe('Stage 3 complete');
+        expect(parseResult.messages![0]).toBe('Stage 1 complete');
+        expect(parseResult.messages![parseResult.messages!.length - 1]).toBe('Stage 3 complete');
     });
 
 });

@@ -22,13 +22,11 @@ export class DetectCodeQuoteBlocks extends ToLineItemBlockTransformation {
    * @returns ParseResult with code blocks annotated
    */
   override transform(parseResult: ParseResult): ParseResult {
-    // @ts-ignore - globals not typed
     const { mostUsedHeight } = parseResult.globals;
     let foundCodeItems = 0;
     parseResult.pages.forEach((page) => {
       const minX = minXFromBlocks(page.items as Block[]);
       page.items.forEach((block: any) => {
-        // @ts-ignore
         if (!block.type && looksLikeCodeBlock(minX, block.items, mostUsedHeight)) {
           block.annotation = DETECTED_ANNOTATION;
           block.type = BlockType.CODE;

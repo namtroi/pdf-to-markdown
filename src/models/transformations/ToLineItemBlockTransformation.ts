@@ -4,7 +4,6 @@ import { LineItemBlock } from '../LineItemBlock';
 import { REMOVED_ANNOTATION } from '../Annotation';
 import { Page } from '../Page';
 
-// @ts-ignore - React components, converted in Phase 4
 import LineItemBlockPageView from '../../components/debug/LineItemBlockPageView';
 
 // Abstract class for transformations producing LineItemBlock(s) to be shown in the LineItemBlockPageView
@@ -23,7 +22,7 @@ export abstract class ToLineItemBlockTransformation extends Transformation {
   }
 
   override createPageView(page: Page, modificationsOnly?: boolean): any {
-    // @ts-ignore
+
     return LineItemBlockPageView({
       key: page.index,
       page: page,

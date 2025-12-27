@@ -7,7 +7,6 @@ import { REMOVED_ANNOTATION, ADDED_ANNOTATION } from '../../Annotation';
 import { BlockType, headlineByLevel } from '../../markdown/BlockType';
 import type { Page } from '../../Page';
 import type { HeightRange } from '../../../types/globals';
-// @ts-ignore - stringFunctions not typed
 import { isDigit, isNumber, calculateWordMatchScore, hasOnlyCharacter } from '../../../utils/stringFunctions';
 
 /**

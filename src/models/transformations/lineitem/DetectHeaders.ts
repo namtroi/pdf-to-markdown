@@ -2,7 +2,6 @@ import { ToLineItemTransformation } from '../ToLineItemTransformation';
 import { ParseResult } from '../../ParseResult';
 import { DETECTED_ANNOTATION } from '../../Annotation';
 import { BlockType, headlineByLevel } from '../../markdown/BlockType';
-// @ts-ignore - stringFunctions not typed
 import { isListItem } from '../../../utils/stringFunctions';
 import { Page } from '../../Page';
 
@@ -32,7 +31,6 @@ export class DetectHeaders extends ToLineItemTransformation {
    * @returns ParseResult with header types assigned
    */
   override transform(parseResult: ParseResult): ParseResult {
-    // @ts-ignore - globals not typed
     const { tocPages, headlineTypeToHeightRange, mostUsedHeight, mostUsedDistance, mostUsedFont, maxHeight } =
       parseResult.globals;
     const hasToc = tocPages && tocPages.length > 0;
@@ -67,7 +65,6 @@ export class DetectHeaders extends ToLineItemTransformation {
             page.items.forEach((item: any) => {
               if (!item.type && item.height === range.max) {
                 item.annotation = DETECTED_ANNOTATION;
-                // @ts-ignore - enumValueOf not typed
                 item.type = BlockType.enumValueOf(headlineType);
                 detectedHeaders++;
               }

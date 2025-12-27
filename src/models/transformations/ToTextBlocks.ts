@@ -3,7 +3,6 @@ import { ParseResult } from '../ParseResult';
 import { Page } from '../Page';
 import { blockToText } from '../markdown/BlockType';
 
-// @ts-ignore - React components, converted in Phase 4
 import TextPageView from '../../components/debug/TextPageView';
 
 export class ToTextBlocks extends Transformation {
@@ -12,7 +11,6 @@ export class ToTextBlocks extends Transformation {
   }
 
   override createPageView(page: Page, _modificationsOnly?: boolean): any {
-    // @ts-ignore
     return TextPageView({
       key: page.index,
       page: page,

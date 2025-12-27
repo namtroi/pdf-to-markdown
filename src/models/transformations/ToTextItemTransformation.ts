@@ -4,7 +4,6 @@ import { TextItem } from '../TextItem';
 import { REMOVED_ANNOTATION } from '../Annotation';
 import { Page } from '../Page';
 
-// @ts-ignore - React components, converted in Phase 6
 import TextItemPageView from '../../components/debug/TextItemPageView';
 
 // Abstract class for transformations producing TextItem(s) to be shown in the TextItemPageView
@@ -23,7 +22,6 @@ export abstract class ToTextItemTransformation extends Transformation {
   }
 
   override createPageView(page: Page, modificationsOnly?: boolean): any {
-    // @ts-ignore
     return TextItemPageView({
       key: page.index,
       page: page,
