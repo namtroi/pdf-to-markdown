@@ -4,6 +4,8 @@
 
 Transform PDFs into clean, structured Markdown directly in the browser. Perfect for **RAG (Retrieval-Augmented Generation) pipelines**, LLM data ingestion, and content migration.
 
+[**🚀 Live Demo**](https://namtroi.github.io/pdf-to-markdown/)
+
 ---
 
 ## ⚡ Why This Fork?
