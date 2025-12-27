@@ -22,6 +22,9 @@ export class DetectCodeQuoteBlocks extends ToLineItemBlockTransformation {
    * @returns ParseResult with code blocks annotated
    */
   override transform(parseResult: ParseResult): ParseResult {
+    if (!parseResult.globals) {
+      throw new Error('DetectCodeQuoteBlocks requires globals from CalculateGlobalStats');
+    }
     const { mostUsedHeight } = parseResult.globals;
     let foundCodeItems = 0;
     parseResult.pages.forEach((page) => {

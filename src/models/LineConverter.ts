@@ -61,7 +61,7 @@ export class LineConverter {
   }
 }
 
-class WordDetectionStream extends StashingStream {
+class WordDetectionStream extends StashingStream<TextItem, Word> {
   private fontToFormats: Map<string, string>;
   footnoteLinks: (string | number)[] = [];
   footnotes: (string | number)[] = [];

@@ -1,7 +1,7 @@
 // Abstract stream which allows stash items temporarily
-export abstract class StashingStream<T> {
-  protected results: T[] = [];
-  protected stash: T[] = [];
+export abstract class StashingStream<TIn, TOut = TIn> {
+  protected results: TOut[] = [];
+  protected stash: TIn[] = [];
 
   constructor() {
     if (new.target === StashingStream) {
@@ -9,11 +9,11 @@ export abstract class StashingStream<T> {
     }
   }
 
-  consumeAll(items: T[]): void {
+  consumeAll(items: TIn[]): void {
     items.forEach((item) => this.consume(item));
   }
 
-  consume(item: T): void {
+  consume(item: TIn): void {
     if (this.shouldStash(item)) {
       if (!this.matchesStash(item)) {
         this.flushStash();
@@ -23,16 +23,16 @@ export abstract class StashingStream<T> {
       if (this.stash.length > 0) {
         this.flushStash();
       }
-      this.results.push(item);
+      this.handleNonStashed(item);
     }
   }
 
-  protected pushOnStash(item: T): void {
+  protected pushOnStash(item: TIn): void {
     this.onPushOnStash(item);
     this.stash.push(item);
   }
 
-  complete(): T[] {
+  complete(): TOut[] {
     if (this.stash.length > 0) {
       this.flushStash();
     }
@@ -40,7 +40,7 @@ export abstract class StashingStream<T> {
   }
 
   // return true if the item matches the items of the stack
-  private matchesStash(item: T): boolean {
+  private matchesStash(item: TIn): boolean {
     if (this.stash.length === 0) {
       return true;
     }
@@ -55,13 +55,21 @@ export abstract class StashingStream<T> {
     }
   }
 
-  protected onPushOnStash(_item: T): void {
+  protected onPushOnStash(_item: TIn): void {
     // sub-classes may override
   }
 
-  protected abstract shouldStash(item: T): boolean;
+  // Handle non-stashed items. Default behavior: push directly (works for same-type streams).
+  // Transforming streams (TIn !== TOut) must override if non-stashed items need transformation.
+  protected handleNonStashed(item: TIn): void {
+    // Default: push item directly (only works when TIn === TOut)
+    // Subclasses with different TIn/TOut must override this method
+    this.results.push(item as unknown as TOut);
+  }
 
-  protected abstract doMatchesStash(lastItem: T, item: T): boolean;
+  protected abstract shouldStash(item: TIn): boolean;
 
-  protected abstract doFlushStash(stash: T[], results: T[]): void;
+  protected abstract doMatchesStash(lastItem: TIn, item: TIn): boolean;
+
+  protected abstract doFlushStash(stash: TIn[], results: TOut[]): void;
 }

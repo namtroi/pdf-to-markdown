@@ -2,6 +2,7 @@ import { ToLineItemTransformation } from '../ToLineItemTransformation';
 import { ParseResult } from '../../ParseResult';
 import { LineItem } from '../../LineItem';
 import { TextItemLineGrouper } from '../../TextItemLineGrouper';
+import { TextItem } from '../../TextItem';
 
 import { LineConverter } from '../../LineConverter';
 import { BlockType } from '../../markdown/BlockType';
@@ -14,6 +15,9 @@ export class CompactLines extends ToLineItemTransformation {
   }
 
   override transform(parseResult: ParseResult): ParseResult {
+    if (!parseResult.globals) {
+      throw new Error('CompactLines requires globals from CalculateGlobalStats');
+    }
     const { mostUsedDistance, fontToFormats } = parseResult.globals;
     const foundFootnotes: any[] = [];
     const foundFootnoteLinks: any[] = [];
@@ -28,7 +32,7 @@ export class CompactLines extends ToLineItemTransformation {
     parseResult.pages.forEach((page) => {
       if (page.items.length > 0) {
         const lineItems: LineItem[] = [];
-        const textItemsGroupedByLine = lineGrouper.group(page.items);
+        const textItemsGroupedByLine = lineGrouper.group(page.items as TextItem[]);
         textItemsGroupedByLine.forEach((lineTextItems: any[]) => {
           const lineItem = lineCompactor.compact(lineTextItems);
           if (lineTextItems.length > 1) {

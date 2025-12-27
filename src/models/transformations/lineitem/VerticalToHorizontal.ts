@@ -3,6 +3,7 @@ import { ParseResult } from '../../ParseResult';
 import { LineItem } from '../../LineItem';
 import { StashingStream } from '../../StashingStream';
 import { REMOVED_ANNOTATION, ADDED_ANNOTATION } from '../../Annotation';
+import type { Word } from '../../Word';
 
 const MIN_VERTICAL_SPACING = 5;
 const MIN_VERTICAL_CHARACTERS = 5;
@@ -18,7 +19,7 @@ export class VerticalToHorizontal extends ToLineItemTransformation {
     let foundVerticals = 0;
     parseResult.pages.forEach((page) => {
       const stream = new VerticalsStream();
-      stream.consumeAll(page.items);
+      stream.consumeAll(page.items as LineItem[]);
       page.items = stream.complete();
       foundVerticals += stream.foundVerticals;
     });
@@ -30,7 +31,7 @@ export class VerticalToHorizontal extends ToLineItemTransformation {
   }
 }
 
-class VerticalsStream extends StashingStream {
+class VerticalsStream extends StashingStream<LineItem> {
   foundVerticals: number;
 
   constructor() {
@@ -38,7 +39,7 @@ class VerticalsStream extends StashingStream {
     this.foundVerticals = 0;
   }
 
-  override shouldStash(item: LineItem): boolean {
+  protected override shouldStash(item: LineItem): boolean {
     return item.words.length === 1 && item.words[0]!.string.length === 1;
   }
 
@@ -49,7 +50,7 @@ class VerticalsStream extends StashingStream {
   override doFlushStash(stash: LineItem[], results: LineItem[]): void {
     if (stash.length > MIN_VERTICAL_CHARACTERS) {
       // unite
-      const combinedWords: any[] = [];
+      const combinedWords: Word[] = [];
       let minX = INITIAL_MIN_X;
       let maxY = 0;
       let sumWidth = 0;
@@ -57,22 +58,24 @@ class VerticalsStream extends StashingStream {
       stash.forEach((oneCharacterLine) => {
         oneCharacterLine.annotation = REMOVED_ANNOTATION;
         results.push(oneCharacterLine);
-        combinedWords.push(oneCharacterLine.words[0]);
+        combinedWords.push(oneCharacterLine.words[0]!);
         minX = Math.min(minX, oneCharacterLine.x);
         maxY = Math.max(maxY, oneCharacterLine.y);
         sumWidth += oneCharacterLine.width;
         maxHeight = Math.max(maxHeight, oneCharacterLine.height);
       });
+      const firstItem = stash[0]!;
       results.push(
         new LineItem({
-          ...stash[0],
           x: minX,
           y: maxY,
           width: sumWidth,
           height: maxHeight,
           words: combinedWords,
           annotation: ADDED_ANNOTATION,
-        } as any)
+          type: firstItem.type,
+          parsedElements: firstItem.parsedElements,
+        })
       );
       this.foundVerticals++;
     } else {

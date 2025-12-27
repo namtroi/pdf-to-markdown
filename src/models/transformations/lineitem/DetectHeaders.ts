@@ -31,6 +31,9 @@ export class DetectHeaders extends ToLineItemTransformation {
    * @returns ParseResult with header types assigned
    */
   override transform(parseResult: ParseResult): ParseResult {
+    if (!parseResult.globals) {
+      throw new Error('DetectHeaders requires globals from CalculateGlobalStats');
+    }
     const { tocPages, headlineTypeToHeightRange, mostUsedHeight, mostUsedDistance, mostUsedFont, maxHeight } =
       parseResult.globals;
     const hasToc = tocPages && tocPages.length > 0;
@@ -54,18 +57,18 @@ export class DetectHeaders extends ToLineItemTransformation {
       });
     });
 
-    if (hasToc) {
+    if (hasToc && headlineTypeToHeightRange) {
       //Use existing headline heights to find additional headlines
       const headlineTypes = Object.keys(headlineTypeToHeightRange);
       headlineTypes.forEach((headlineType) => {
         const range = headlineTypeToHeightRange[headlineType];
-        if (range.max > mostUsedHeight) {
+        if (range && range.max > mostUsedHeight) {
           //use only very clear headlines, only use max
           parseResult.pages.forEach((page) => {
             page.items.forEach((item: any) => {
               if (!item.type && item.height === range.max) {
                 item.annotation = DETECTED_ANNOTATION;
-                item.type = BlockType.enumValueOf(headlineType);
+                item.type = headlineByLevel(parseInt(headlineType.substring(1), 10));
                 detectedHeaders++;
               }
             });
